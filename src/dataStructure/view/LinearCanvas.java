@@ -20,7 +20,7 @@ public class LinearCanvas<T> extends Canvas<T> {
 
     @Override
     protected Position calculatePosition(Node<T> node) {
-        Position position = new Position(maxX + node.getWidth() / 2, maxY + node.getWidth() / 2);
+        Position position = new Position(maxX + (node.getWidth() >> 1), maxY + (node.getHeight() >> 1));
         maxX += node.getWidth() + separation;
         return position;
     }

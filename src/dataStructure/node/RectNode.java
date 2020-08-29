@@ -8,6 +8,8 @@ import java.awt.*;
  */
 public class RectNode<T> extends DataNode<T> {
 
+    private boolean isDrawn = false;
+
     public RectNode(T data, int width, int height) {
         super(data, width, height);
     }
@@ -16,10 +18,18 @@ public class RectNode<T> extends DataNode<T> {
         super(data, width, height, color);
     }
 
+    public void setDrawn(boolean drawn) {
+        this.isDrawn = drawn;
+    }
+
+    public boolean isDrawn() {
+        return isDrawn;
+    }
+
     @Override
     public void draw(Graphics g, int x, int y) {
         g.setColor(this.getColor());
-        g.drawRect(x - this.getWidth() / 2, y - this.getHeight() / 2, this.getWidth(), this.getHeight());
-        g.drawString(this.getData().toString(), x - this.getWidth() / 2, y - this.getHeight() / 2);
+        g.drawRect(x - (this.getWidth() >> 1), y - (this.getHeight() >> 1), this.getWidth(), this.getHeight());
+        g.drawString(this.getData().toString(), x - (this.getWidth() >> 1), y - (this.getHeight() >> 1));
     }
 }

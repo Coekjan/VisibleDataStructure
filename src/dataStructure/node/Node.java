@@ -20,4 +20,5 @@ public interface Node<T> {
     int getWidth();
 
     int getHeight();
+
 }

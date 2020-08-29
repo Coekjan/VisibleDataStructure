@@ -20,6 +20,7 @@ public abstract class Canvas<T> extends JFrame {
 
         @Override
         protected void paintComponent(Graphics g) {
+            g.setFont(new Font("Consolas", Font.BOLD, 14));
             super.paintComponent(g);
             Position pos;
             for(Node<T> node : nodes.keySet()) {
