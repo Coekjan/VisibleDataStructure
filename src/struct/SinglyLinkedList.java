@@ -11,32 +11,14 @@ import java.awt.*;
 public class SinglyLinkedList<T> extends LinkedList<T> {
     private SinglyLinkedNode<T> head;
     private SinglyLinkedNode<T> tail;
-    private final byte inter;
 
-    public SinglyLinkedList(byte inter) {
+    public SinglyLinkedList(listAlign align) {
         this.head = this.tail = null;
-        if(SinglyLinkedNode.notAlign(inter)) throw new IllegalArgumentException();
-        this.inter = inter;
-    }
-
-    public SinglyLinkedList(SinglyLinkedNode<T> node) {
-        if(node == null) throw new IllegalArgumentException();
-        this.head = this.tail = node;
-        inter = node.getAlign();
-        size = 1;
-    }
-
-    public SinglyLinkedList(SinglyLinkedNode<T> firstNode, SinglyLinkedNode<T> nextNode) {
-        if(firstNode == null || nextNode == null || firstNode.getAlign() != nextNode.getAlign()) throw new IllegalArgumentException();
-        this.head = firstNode;
-        this.tail = nextNode;
-        inter = firstNode.getAlign();
-        head.link(tail);
-        size = 2;
+        this.align = align;
     }
 
     public SinglyLinkedList<T> append(SinglyLinkedNode<T> node) {
-        if(node == null || node.getAlign() != inter) throw new IllegalArgumentException();
+        if(node == null) throw new IllegalArgumentException();
         if(tail == null) head = tail = node;
         else {
             tail.link(node);
@@ -47,7 +29,7 @@ public class SinglyLinkedList<T> extends LinkedList<T> {
     }
 
     public SinglyLinkedList<T> ahead(SinglyLinkedNode<T> node) {
-        if(node == null || node.getAlign() != inter) throw new IllegalArgumentException();
+        if(node == null) throw new IllegalArgumentException();
         if(head == null) head = tail = node;
         else {
             node.link(head);
@@ -59,7 +41,6 @@ public class SinglyLinkedList<T> extends LinkedList<T> {
 
     public SinglyLinkedList<T> addAfter(SinglyLinkedNode<T> node, SinglyLinkedNode<T> newNode) {
         if(head == null || !contain(node)) throw new IllegalArgumentException();
-        if(newNode.getAlign() != inter) throw new IllegalArgumentException();
         if(head == tail && node == head) append(newNode);
         else {
             newNode.link(node.next());
@@ -74,7 +55,7 @@ public class SinglyLinkedList<T> extends LinkedList<T> {
     }
 
     public boolean contain(SinglyLinkedNode<T> node) {
-        if(node == null || node.getAlign() != inter) return false;
+        if(node == null) return false;
         for(SinglyLinkedNode<T> pointer = head; pointer != null ; pointer = pointer.next()) {
             if(pointer == node) return true;
         }
@@ -84,8 +65,8 @@ public class SinglyLinkedList<T> extends LinkedList<T> {
     private void drawConnection(Graphics graphics, SinglyLinkedNode<T> node, int x, int y) {
         graphics.setFont(new Font("Default", Font.BOLD, 15));
         graphics.setColor(Color.black);
-        switch (inter) {
-            case SinglyLinkedNode.left_right:
+        switch (align) {
+            case Horizon:
                 if(node == tail) return;
                 else {
                     graphics.drawLine(x + node.getWidth(), y + (node.getHeight() >> 1),
@@ -93,7 +74,7 @@ public class SinglyLinkedList<T> extends LinkedList<T> {
                     graphics.drawString(rightArrow, x + node.getWidth(), y + (node.getHeight() >> 1));
                 }
                 return;
-            case SinglyLinkedNode.up_down:
+            case Vertical:
                 if(node == tail) return;
                 else {
                     graphics.drawLine(x + (node.getWidth() >> 1), y + node.getHeight(),
@@ -101,7 +82,8 @@ public class SinglyLinkedList<T> extends LinkedList<T> {
                     graphics.drawString(downArrow, x + (node.getWidth() >> 1), y + node.getHeight());
                 }
                 return;
-            default: throw new IllegalArgumentException();
+            default:
+                throw new IllegalStateException("Unexpected value: " + align);
         }
     }
 
@@ -111,14 +93,15 @@ public class SinglyLinkedList<T> extends LinkedList<T> {
             graphics.setFont(new Font("Times New Roman", Font.ITALIC, 15));
             pointer.draw(graphics, x, y);
             drawConnection(graphics, pointer, x, y);
-            switch (inter) {
-                case SinglyLinkedNode.left_right:
+            switch (align) {
+                case Horizon:
                     x += pointer.getWidth() << 1;
                     break;
-                case SinglyLinkedNode.up_down:
+                case Vertical:
                     y += pointer.getHeight() << 1;
                     break;
-                default: throw new IllegalArgumentException();
+                default:
+                    throw new IllegalStateException("Unexpected value: " + align);
             }
         }
     }

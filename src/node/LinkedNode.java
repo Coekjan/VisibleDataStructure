@@ -36,5 +36,4 @@ public abstract class LinkedNode<T> extends RectNode {
         graphics.drawString(data.toString(), x, y);
     }
 
-    public abstract byte getAlign();
 }
