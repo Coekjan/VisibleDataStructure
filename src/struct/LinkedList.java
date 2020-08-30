@@ -6,7 +6,7 @@ import java.awt.*;
  * @author Yip Coekjan
  * @Date 8/30/2020
  */
-public abstract class LinkedList<T> extends Struct {
+public abstract class LinkedList extends Struct {
 
     public enum listAlign {
         Horizon, Vertical
@@ -18,8 +18,6 @@ public abstract class LinkedList<T> extends Struct {
     protected static final String leftArrow = "<";
     protected static final String upArrow = "^";
     protected static final String downArrow = "v";
-
-    protected int size = 0;
 
     public void setAlign(listAlign align) {
         this.align = align;

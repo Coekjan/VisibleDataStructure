@@ -1,6 +1,6 @@
 package struct;
 
-import node.SinglyLinkedNode;
+import node.DoubleLinkedNode;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,79 +9,89 @@ import java.awt.*;
  * @author Yip Coekjan
  * @Date 8/30/2020
  */
-public class SinglyLinkedList extends LinkedList {
-    private SinglyLinkedNode head;
-    private SinglyLinkedNode tail;
+public class DoubleLinkedList extends LinkedList {
+    private DoubleLinkedNode head;
+    private DoubleLinkedNode tail;
 
-    public SinglyLinkedList(listAlign align) {
+    public DoubleLinkedList(listAlign align) {
         this.head = this.tail = null;
         this.align = align;
     }
 
-    public SinglyLinkedList append(String data) {
-        return append(new SinglyLinkedNode(data));
+    public DoubleLinkedList append(String data) {
+        return append(new DoubleLinkedNode(data));
     }
 
-    public SinglyLinkedList append(SinglyLinkedNode node) {
+    public DoubleLinkedList append(DoubleLinkedNode node) {
         if(node == null) throw new IllegalArgumentException();
         if(tail == null) head = tail = node;
         else {
-            tail.link(node);
+            tail.linkNext(node);
+            node.linkPre(tail);
             tail = node;
         }
         return this;
     }
 
-    public SinglyLinkedList ahead(String data) {
-        return ahead(new SinglyLinkedNode(data));
+    public DoubleLinkedList ahead(String data) {
+        return ahead(new DoubleLinkedNode(data));
     }
 
-    public SinglyLinkedList ahead(SinglyLinkedNode node) {
+    public DoubleLinkedList ahead(DoubleLinkedNode node) {
         if(node == null) throw new IllegalArgumentException();
         if(head == null) head = tail = node;
         else {
-            node.link(head);
+            node.linkNext(head);
+            head.linkPre(node);
             head = node;
         }
         return this;
     }
 
-    public SinglyLinkedList addAfter(SinglyLinkedNode node, SinglyLinkedNode newNode) {
+    public DoubleLinkedList addAfter(DoubleLinkedNode node, DoubleLinkedNode newNode) {
         if(head == null || !contain(node)) throw new IllegalArgumentException();
         if(head == tail && node == head) append(newNode);
         else {
-            newNode.link(node.next());
-            node.link(newNode);
+            newNode.linkNext(node.next());
+            newNode.linkPre(node);
+            node.next().linkPre(newNode);
+            node.linkNext(newNode);
         }
         return this;
     }
 
-    public boolean contain(SinglyLinkedNode node) {
+    public boolean contain(DoubleLinkedNode node) {
         if(node == null) return false;
-        for(SinglyLinkedNode pointer = head; pointer != null ; pointer = pointer.next()) {
+        for(DoubleLinkedNode pointer = head; pointer != null; pointer = pointer.next()) {
             if(pointer == node) return true;
         }
         return false;
     }
 
-    private void drawConnection(Graphics graphics, SinglyLinkedNode node, int x, int y) {
+    private void drawConnection(Graphics graphics, DoubleLinkedNode node, int x, int y) {
         graphics.setFont(edgeFont);
         graphics.setColor(Color.black);
         switch (align) {
             case Horizon:
                 if(node == tail) return;
                 else {
-                    graphics.drawLine(x + node.getWidth(), y + (node.getHeight() >> 1),
-                            x + (node.getWidth() << 1), y + (node.next().getHeight() >> 1));
-                    graphics.drawString(rightArrow, x + node.getWidth(), y + (node.getHeight() >> 1));
+                    graphics.drawLine(x + node.getWidth(), y + (node.getHeight() >> 2),
+                            x + (node.getWidth() << 1), y + (node.next().getHeight() >> 2));
+                    graphics.drawLine(x + node.getWidth(), y + (node.getHeight() >> 2) * 3,
+                            x + (node.getWidth() << 1), y + (node.next().getHeight() >> 2) * 3);
+                    graphics.drawString(rightArrow, x + node.getWidth(), y + (node.getHeight() >> 2));
+                    graphics.drawString(leftArrow, x + node.getWidth(), y + (node.getHeight() >> 2) * 3);
                 }
                 return;
             case Vertical:
                 if(node == tail) return;
                 else {
-                    graphics.drawLine(x + (node.getWidth() >> 1), y + node.getHeight(),
-                            x + (node.next().getWidth() >> 1), y + (node.getHeight() << 1));
-                    graphics.drawString(downArrow, x + (node.getWidth() >> 1), y + node.getHeight());
+                    graphics.drawLine(x + (node.getWidth() >> 2), y + node.getHeight(),
+                            x + (node.next().getWidth() >> 2), y + (node.getHeight() << 1));
+                    graphics.drawLine(x + (node.getWidth() >> 2) * 3, y + node.getHeight(),
+                            x + (node.next().getWidth() >> 2) * 3, y + (node.getHeight() << 1));
+                    graphics.drawString(downArrow, x + (node.getWidth() >> 2), y + node.getHeight());
+                    graphics.drawString(upArrow, x + (node.getWidth() >> 2) * 3, y + node.getHeight());
                 }
                 return;
             default:
@@ -91,7 +101,7 @@ public class SinglyLinkedList extends LinkedList {
 
     @Override
     public void draw(Graphics g, int x, int y) {
-        for(SinglyLinkedNode pointer = head; pointer != null; pointer = pointer.next()) {
+        for(DoubleLinkedNode pointer = head; pointer != null; pointer = pointer.next()) {
             g.setFont(dataFont);
             pointer.draw(g, x, y);
             drawConnection(g, pointer, x, y);
@@ -120,7 +130,7 @@ public class SinglyLinkedList extends LinkedList {
 
         JButton submitButton = new JButton("Add");
 
-        SinglyLinkedList that = this;
+        DoubleLinkedList that = this;
 
         panel.add(input);
         panel.add(list);

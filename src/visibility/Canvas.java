@@ -26,16 +26,12 @@ public class Canvas<T> extends JFrame {
     }
 
     public Canvas(int width, int height) {
-        add(new CanvasPanel());
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.width = width;
         this.height = height;
         this.offset = defaultOffset;
     }
 
     public Canvas(int width, int height, Struct struct) {
-        add(new CanvasPanel());
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.width = width;
         this.height = height;
         this.struct = struct;
@@ -62,6 +58,7 @@ public class Canvas<T> extends JFrame {
 
     public void draw() {
         add(new CanvasPanel());
+        add(struct.getController(this), BorderLayout.EAST);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(width, height);

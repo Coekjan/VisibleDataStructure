@@ -6,26 +6,26 @@ import java.awt.*;
  * @author Yip Coekjan
  * @Date 8/30/2020
  */
-public class SinglyLinkedNode<T> extends LinkedNode<T> {
-    private SinglyLinkedNode<T> nextNode = null;
+public class SinglyLinkedNode extends LinkedNode {
+    private SinglyLinkedNode nextNode = null;
 
-    public SinglyLinkedNode(T data) {
+    public SinglyLinkedNode(String data) {
         super(data);
     }
 
-    public SinglyLinkedNode(T data, int width, int height) {
+    public SinglyLinkedNode(String data, int width, int height) {
         super(data, width, height);
     }
 
-    public SinglyLinkedNode(T data, int width, int height, Color color) {
+    public SinglyLinkedNode(String data, int width, int height, Color color) {
         super(data, width, height, color);
     }
 
-    public SinglyLinkedNode<T> next() {
+    public SinglyLinkedNode next() {
         return nextNode;
     }
 
-    public SinglyLinkedNode<T> link(SinglyLinkedNode<T> node) {
+    public SinglyLinkedNode link(SinglyLinkedNode node) {
         nextNode = node;
         return node;
     }
