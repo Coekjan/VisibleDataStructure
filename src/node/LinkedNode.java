@@ -1,4 +1,4 @@
-package struct;
+package node;
 
 import shape.RectNode;
 
@@ -10,6 +10,11 @@ import java.awt.*;
  */
 public abstract class LinkedNode<T> extends RectNode {
     protected final T data;
+
+    protected LinkedNode(T data) {
+        super();
+        this.data = data;
+    }
 
     protected LinkedNode(T data, int width, int height) {
         super(width, height);
@@ -31,5 +36,5 @@ public abstract class LinkedNode<T> extends RectNode {
         graphics.drawString(data.toString(), x, y);
     }
 
-    public abstract byte getInter();
+    public abstract byte getAlign();
 }

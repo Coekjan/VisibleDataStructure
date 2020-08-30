@@ -15,6 +15,7 @@ public abstract class NodeShape implements Shape {
     protected NodeShape(int width, int height) {
         this.width = width;
         this.height = height;
+        color = Color.black;
     }
 
     protected NodeShape(int width, int height, Color color) {
@@ -37,5 +38,7 @@ public abstract class NodeShape implements Shape {
     }
 
     @Override
-    public abstract void draw(Graphics graphics, int x, int y);
+    public void draw(Graphics graphics, int x, int y) {
+        graphics.setColor(color);
+    }
 }

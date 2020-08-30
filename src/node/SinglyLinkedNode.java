@@ -1,4 +1,4 @@
-package struct;
+package node;
 
 import java.awt.*;
 
@@ -8,30 +8,45 @@ import java.awt.*;
  */
 public class SinglyLinkedNode<T> extends LinkedNode<T> {
     private SinglyLinkedNode<T> nextNode = null;
-    private final byte inter;
-    public final static byte up = 1;    // 0001
-    public final static byte right = 2; // 0010
-    public final static byte down = 4;  // 0100
-    public final static byte left = 8;  // 1000
+    private final byte align;
+    public final static byte up_down = 0;
+    public final static byte left_right = 1;
+
+    public SinglyLinkedNode(T data) {
+        super(data);
+        this.align = left_right;
+    }
+
+    public SinglyLinkedNode(T data, byte inter) {
+        super(data);
+        this.align = inter;
+    }
 
     public SinglyLinkedNode(T data, int width, int height) {
         super(data, width, height);
-        this.inter = right | left;
+        this.align = left_right;
     }
 
     public SinglyLinkedNode(T data, int width, int height, Color color) {
         super(data, width, height, color);
-        this.inter = right | left;
+        this.align = left_right;
     }
 
     public SinglyLinkedNode(T data, int width, int height, byte inter) {
         super(data, width, height);
-        this.inter = inter;
+        if(notAlign(inter)) throw new IllegalArgumentException();
+        this.align = inter;
     }
 
     public SinglyLinkedNode(T data, int width, int height, byte inter, Color color) {
         super(data, width, height, color);
-        this.inter = inter;
+        if(notAlign(inter)) throw new IllegalArgumentException();
+        this.align = inter;
+    }
+
+    public static boolean notAlign(byte inter) {
+        if(inter == left_right || inter == up_down) return false;
+        else return true;
     }
 
     public SinglyLinkedNode<T> next() {
@@ -44,7 +59,7 @@ public class SinglyLinkedNode<T> extends LinkedNode<T> {
     }
 
     @Override
-    public byte getInter() {
-        return inter;
+    public byte getAlign() {
+        return align;
     }
 }
