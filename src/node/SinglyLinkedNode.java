@@ -45,8 +45,7 @@ public class SinglyLinkedNode<T> extends LinkedNode<T> {
     }
 
     public static boolean notAlign(byte inter) {
-        if(inter == left_right || inter == up_down) return false;
-        else return true;
+        return inter != left_right && inter != up_down;
     }
 
     public SinglyLinkedNode<T> next() {

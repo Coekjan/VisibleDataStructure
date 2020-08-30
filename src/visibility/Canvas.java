@@ -15,7 +15,7 @@ public class Canvas<T> extends JFrame {
     private final int offset;
     public static final int defaultOffset = 20;
 
-    private Struct<T> struct = null;
+    private Struct struct = null;
 
     private class CanvasPanel extends JPanel {
         @Override
@@ -33,7 +33,7 @@ public class Canvas<T> extends JFrame {
         this.offset = defaultOffset;
     }
 
-    public Canvas(int width, int height, Struct<T> struct) {
+    public Canvas(int width, int height, Struct struct) {
         add(new CanvasPanel());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.width = width;
@@ -50,7 +50,7 @@ public class Canvas<T> extends JFrame {
         this.offset = offset;
     }
 
-    public Canvas(int width, int height, int offset, Struct<T> struct) {
+    public Canvas(int width, int height, int offset, Struct struct) {
         add(new CanvasPanel());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.width = width;
@@ -59,7 +59,7 @@ public class Canvas<T> extends JFrame {
         this.offset = offset;
     }
 
-    public Canvas<T> setStruct(Struct<T> struct) {
+    public Canvas<T> setStruct(Struct struct) {
         this.struct = struct;
         return this;
     }

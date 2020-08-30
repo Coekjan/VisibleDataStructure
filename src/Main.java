@@ -1,5 +1,4 @@
 import node.SinglyLinkedNode;
-import shape.RectNode;
 import struct.SinglyLinkedList;
 import visibility.Canvas;
 
