@@ -43,16 +43,12 @@ public class Canvas<T> extends JFrame {
     }
 
     public Canvas(int width, int height, int offset) {
-        add(new CanvasPanel());
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.width = width;
         this.height = height;
         this.offset = offset;
     }
 
     public Canvas(int width, int height, int offset, Struct struct) {
-        add(new CanvasPanel());
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.width = width;
         this.height = height;
         this.struct = struct;
@@ -65,6 +61,8 @@ public class Canvas<T> extends JFrame {
     }
 
     public void draw() {
+        add(new CanvasPanel());
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setSize(width, height);
         setVisible(true);
