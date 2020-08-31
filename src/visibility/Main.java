@@ -172,7 +172,7 @@ public class Main {
         dTree.setShowsRootHandles(true);
         dTree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode)dTree.getLastSelectedPathComponent();
-            if(node == null || !node.isLeaf()) return;
+            if(node == null || !node.isLeaf() || node == rootNode) return;
             else {
                 VSBElement ele = structTypes.get((DefaultMutableTreeNode) node.getParent()).get(node);
                 ele.display(work);
@@ -186,7 +186,7 @@ public class Main {
     }
 
     private static void initStructTypes() {
-        
+
     }
 
 }
