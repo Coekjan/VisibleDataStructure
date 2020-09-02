@@ -1,10 +1,16 @@
 package structures;
 
-import visibility.DrawablePane;
+import visibility.ChangeableShape;
+import visibility.GlobalUserInterfaceLangController;
 import visibility.WorkSpacePairController;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 
 /**
@@ -16,38 +22,84 @@ public class SinglyLinkedList extends WorkSpacePairController {
     private static int count = 0;
     private SinglyLinkedNode head = null;
     private SinglyLinkedNode tail = null;
+    private final Point nextPoint = new Point(StructureNode.SIZE.width, StructureNode.SIZE.height);
+    private final Box nodeAdder = Box.createVerticalBox();
+    private final Box nodeDeleter = Box.createVerticalBox();
 
     public SinglyLinkedList() {
-
-        Box addBox = new Box(BoxLayout.X_AXIS);
-        JButton button = new JButton("从链表最后增加");
-        addBox.add(button);
-
-        button.addActionListener(e -> {
-            String input = JOptionPane.showInputDialog(
-                    null,
-                    "元素数据",
-                    ""
+        this.tabbedController.addTab(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER.toString(), nodeAdder);
+        this.tabbedController.addTab(GlobalUserInterfaceLangController.STRUCT_NODE_DELETER.toString(), nodeDeleter);
+        JButton appendButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER_APPEND.toString());
+        appendButton.addActionListener(e -> {
+            String inputContent = JOptionPane.showInputDialog(
+                    this.workSpace,
+                    GlobalUserInterfaceLangController.STRUCT_NODE_ADD_MESSAGE.toString(),
+                    GlobalUserInterfaceLangController.STRUCT_NODE_ADD_TITLE.toString()
             );
-            if(tail == null) {
-                append(new SinglyLinkedNode(input, new Point(
-                        StructureNode.NODE_SIZE.width, StructureNode.NODE_SIZE.height)));
-            } else append(new SinglyLinkedNode(input, new Point(
-                    tail.pos.x + (StructureNode.NODE_SIZE.width << 1), tail.pos.y)));
-            workSpace.repaint();
-//            workSpace.updateUI();
+            if(inputContent != null) append(inputContent);
         });
-
-        controller.addTab("增加", addBox);
+        nodeAdder.add(appendButton);
     }
 
-    private static class SinglyLinkedNode extends StructureNode {
+    private class SinglyLinkedNode extends StructureNode {
 
-        private SinglyLinkedNode pre = null;
         private SinglyLinkedNode next = null;
+        private final SinglyLinkedNode self = this;
+        private final JLabel idText = new JLabel(GlobalUserInterfaceLangController.STRUCT_NODE_ID_TEXT.toString());
+        private final JTextField idField = new JTextField();
+        private final JLabel dataText = new JLabel(GlobalUserInterfaceLangController.STRUCT_NODE_DATA_TEXT.toString());
+        private final JTextField dataField = new JTextField();
+        private final JLabel nextText = new JLabel(GlobalUserInterfaceLangController.SINGLY_LINKED_NODE_NEXT_TEXT.toString());
+        private final JTextField nextField = new JTextField();
 
         public SinglyLinkedNode(String data, Point pos) {
             super(data, pos);
+            connections = new PointToNodeConnection();
+            idField.setText(Integer.toString(id));
+            nextField.setText(GlobalUserInterfaceLangController.STRUCT_NODE_POINT_NULL.toString());
+            idField.setEditable(false);
+            nextField.setEditable(false);
+            dataField.setEditable(true);
+            dataField.addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    dataField.selectAll();
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    self.data = dataField.getText();
+                }
+            });
+        }
+
+        private class PointToNodeConnection implements ChangeableShape {
+            @Override
+            public Shape shape() {
+                Shape shape = null;
+                if(next == null) {
+                    shape = new Line2D.Double(
+                            pos.x + SIZE.width,
+                            pos.y,
+                            pos.x + (SIZE.width << 1),
+                            pos.y - SIZE.height
+                    );
+                } else {
+                    shape = new QuadCurve2D.Double(
+                            pos.x + SIZE.width,
+                            pos.y,
+                            (pos.x + (next.pos.x << 1)) / 3.0,
+                            Math.min(pos.y, next.pos.y) - (SIZE.height >> 1),
+                            next.pos.x + (SIZE.width >> 1),
+                            next.pos.y
+                    );
+                }
+                return shape;
+            }
+        }
+
+        public void link(SinglyLinkedNode node) {
+            this.next = node;
+            nextField.setText(Integer.toString(next.id));
         }
 
         @Override
@@ -57,42 +109,29 @@ public class SinglyLinkedList extends WorkSpacePairController {
 
         @Override
         protected void onClickListener() {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "id = " + id + "\ndata = " + data,
-                    "Node",
-                    JOptionPane.PLAIN_MESSAGE
-            );
-
-        }
-
-        @Override
-        public Shape getConnection() {
-            if(pre != null) return new QuadCurve2D.Double(
-                    pre.pos.x + NODE_SIZE.width,
-                    pre.pos.y,
-                    (pre.pos.x + pos.x) / 2.0 + (NODE_SIZE.width >> 1) * 3,
-                    Math.min(pre.pos.y, pos.y) - Math.abs(pre.pos.y - pos.y) * 2 - NODE_SIZE.height / 2,
-                    pos.x + (NODE_SIZE.width >> 1),
-                    pos.y
-            );
-            else return null;
+            dataField.setText(data);
+            infoControllerPane.removeAll();
+            infoControllerPane.add(idText);
+            infoControllerPane.add(idField);
+            infoControllerPane.add(nextText);
+            infoControllerPane.add(nextField);
+            infoControllerPane.add(dataText);
+            infoControllerPane.add(dataField);
+            controller.updateUI();
         }
     }
 
-    private void addNode(SinglyLinkedNode node) {
-        this.workSpace.add(node.getConnection());
-        this.workSpace.add(node.button);
-    }
-
-    public void append(SinglyLinkedNode node) {
+    private void append(String data) {
+        SinglyLinkedNode node = new SinglyLinkedNode(data, nextPoint);
         if(head == null) head = tail = node;
         else {
-            tail.next = node;
-            node.pre = tail;
+            tail.link(node);
             tail = node;
         }
-        addNode(node);
+        nextPoint.x += StructureNode.SIZE.width << 1;
+        workSpace.add(node.connections);
+        workSpace.add(node.button);
+        workSpace.repaint();
     }
 
 }

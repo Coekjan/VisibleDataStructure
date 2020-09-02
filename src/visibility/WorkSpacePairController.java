@@ -8,29 +8,27 @@ import java.awt.*;
  * @Date 9/1/2020
  */
 public abstract class WorkSpacePairController {
-    protected DrawablePane workSpace;
-    protected JTabbedPane controller;
+    protected final DrawablePane workSpace = new DrawablePane();
+    protected final JSplitPane controller = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+    protected final JTabbedPane tabbedController = new JTabbedPane();
+    protected final JPanel infoControllerPane = new JPanel();
+    protected GridLayout infoController = new GridLayout(0, 2);
 
     public WorkSpacePairController() {
-        this.workSpace = new DrawablePane();
-        this.controller = new JTabbedPane();
-
         this.workSpace.setLayout(null);
-    }
-
-    protected void setWorkSpace(DrawablePane workSpace) {
-        this.workSpace = workSpace;
+        this.controller.setLeftComponent(tabbedController);
+        this.controller.setRightComponent(infoControllerPane);
+        this.infoControllerPane.setLayout(infoController);
+        this.controller.setEnabled(false);
+        this.controller.setDividerSize(2);
+        this.controller.updateUI();
     }
 
     public DrawablePane getWorkSpace() {
         return workSpace;
     }
 
-    protected void setController(JTabbedPane controller) {
-        this.controller = controller;
-    }
-
-    public JTabbedPane getController() {
+    public JSplitPane getController() {
         return controller;
     }
 

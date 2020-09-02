@@ -55,13 +55,17 @@ public class GlobalUserInterfaceLangController {
             "选择一种语言",
             "Choose one language"
     );
-    public static final LangString EXIT_BUT_NOT_SAVE_TITLE = new LangString(
+    public static final LangString NOT_SAVE_TITLE = new LangString(
             "警告",
             "Warning"
     );
     public static final LangString EXIT_BUT_NOT_SAVE_MESSAGE = new LangString(
             "文件未保存, 确认退出吗?",
             "The current file is not saved yet, confirm to exit?"
+    );
+    public static final LangString LANG_CHANGE_BUT_NOT_SAVE = new LangString(
+            "文件未保存, 更换语言将导致文件丢失. 确定更换语言吗?",
+            "The file is not saved. Changing the language now will discard the file. Confirm to change language?"
     );
 
     public static final LangString STRUCTURE_SWITCH_WARNING_MESSAGE = new LangString(
@@ -73,6 +77,39 @@ public class GlobalUserInterfaceLangController {
             "Warning"
     );
 
+    public static final LangString STRUCT_NODE_ADDER = new LangString(
+            "增加结点",
+            "Add node"
+    );
+    public static final LangString STRUCT_NODE_DELETER = new LangString(
+            "删除结点",
+            "Delete node"
+    );
+    public static final LangString STRUCT_NODE_ID_TEXT = new LangString(
+            "代号",
+            "Identification"
+    );
+    public static final LangString STRUCT_NODE_DATA_TEXT = new LangString(
+            "数据",
+            "Data"
+    );
+    public static final LangString STRUCT_NODE_ADDER_APPEND = new LangString(
+            "在尾部增加结点",
+            "Add a node to the tail"
+    );
+    public static final LangString STRUCT_NODE_ADD_MESSAGE = new LangString(
+            "输入结点的数据",
+            "Input specific data for new node"
+    );
+    public static final LangString STRUCT_NODE_ADD_TITLE = new LangString(
+            "新建结点",
+            "New Node"
+    );
+    public static final LangString STRUCT_NODE_POINT_NULL = new LangString(
+            "<空结点>",
+            "<NULL>"
+    );
+
     public static final LangString LINKED_LINEAR_LIST = new LangString(
             "链式线性表",
             "Linked Linear List"
@@ -80,6 +117,10 @@ public class GlobalUserInterfaceLangController {
     public static final LangString LINKED_LINEAR_LIST_SINGLY_NOT_LOOP = new LangString(
             "单向不循环链表",
             "Singly Linked List"
+    );
+    public static final LangString SINGLY_LINKED_NODE_NEXT_TEXT = new LangString(
+            "单向链接到",
+            "Singly-linked to"
     );
     public static final LangString LINKED_LINEAR_LIST_DOUBLE_NOT_LOOP = new LangString(
             "双向不循环链表",

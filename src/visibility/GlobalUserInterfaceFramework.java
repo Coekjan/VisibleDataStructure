@@ -19,11 +19,11 @@ public class GlobalUserInterfaceFramework extends JFrame {
     private boolean save = true;
 
     private final Hashtable<LangString, LangString[]> structures;
-    private final HashMap<LangString, WorkSpacePairController> handlers;
-    private final JSplitPane workSpace = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+    private final HashMap<LangString, WorkSpacePairControllerConstructor> handlers;
+    private JSplitPane workSpace = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
     public GlobalUserInterfaceFramework(Hashtable<LangString, LangString[]> structures,
-                                        HashMap<LangString, WorkSpacePairController> handlers) {
+                                        HashMap<LangString, WorkSpacePairControllerConstructor> handlers) {
         this.structures = new Hashtable<>(structures);
         this.handlers = new HashMap<>(handlers);
 
@@ -95,14 +95,24 @@ public class GlobalUserInterfaceFramework extends JFrame {
                             LangString.languages,
                             LangString.languages[GlobalUserInterfaceLangController.currentLangIndex]
                     );
-                    for(int i = 0; i < LangString.languages.length; i++) {
-                        if(LangString.languages[i].equals(input)) {
-                            GlobalUserInterfaceLangController.currentLangIndex = i;
-                            self.dispose();
-                            new GlobalUserInterfaceFramework(structures, handlers);
-                            break;
+                    if(!input.equals(LangString.languages[GlobalUserInterfaceLangController.currentLangIndex])) {
+                        if(save || JOptionPane.showConfirmDialog(
+                                self,
+                                GlobalUserInterfaceLangController.LANG_CHANGE_BUT_NOT_SAVE.toString(),
+                                GlobalUserInterfaceLangController.NOT_SAVE_TITLE.toString(),
+                                JOptionPane.YES_NO_OPTION
+                        ) == JOptionPane.YES_OPTION) {
+                            for(int i = 0; i < LangString.languages.length; i++) {
+                                if(LangString.languages[i].equals(input)) {
+                                    GlobalUserInterfaceLangController.currentLangIndex = i;
+                                    self.dispose();
+                                    new GlobalUserInterfaceFramework(structures, handlers);
+                                    break;
+                                }
+                            }
                         }
                     }
+
                 });
                 fileExit.addActionListener(e -> onExitListener());
             JMenu about = new JMenu(GlobalUserInterfaceLangController.MENU_TEXT_ABOUT.toString());
@@ -151,9 +161,13 @@ public class GlobalUserInterfaceFramework extends JFrame {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE) != JOptionPane.NO_OPTION) {
                         nowNode = selectedNode;
+                        WorkSpacePairController workSpacePairController = self.handlers.get(selectedNode.getUserObject()).getter();
+                        JSplitPane controller = workSpacePairController.getController();
+                        controller.setDividerLocation((FRAME_DIMENSION.width >> 2) * 3);
                         self.workSpace.removeAll();
-                        self.workSpace.setTopComponent(self.handlers.get(selectedNode.getUserObject()).getWorkSpace());
-                        self.workSpace.setBottomComponent(self.handlers.get(selectedNode.getUserObject()).getController());
+                        self.workSpace.setTopComponent(workSpacePairController.getWorkSpace());
+                        self.workSpace.setBottomComponent(controller);
+                        self.workSpace.setDividerSize(2);
                         self.workSpace.updateUI();
                         self.save = false;
                     } else {
@@ -168,7 +182,7 @@ public class GlobalUserInterfaceFramework extends JFrame {
         if(save || JOptionPane.showConfirmDialog(
                         this,
                         GlobalUserInterfaceLangController.EXIT_BUT_NOT_SAVE_MESSAGE.toString(),
-                        GlobalUserInterfaceLangController.EXIT_BUT_NOT_SAVE_TITLE.toString(),
+                        GlobalUserInterfaceLangController.NOT_SAVE_TITLE.toString(),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE
         ) == JOptionPane.YES_OPTION) {

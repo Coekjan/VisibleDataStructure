@@ -1,7 +1,6 @@
 import structures.SinglyLinkedList;
 import visibility.*;
 
-import javax.swing.*;
 import java.util.HashMap;
 import java.util.Hashtable;
 
@@ -17,11 +16,14 @@ public class Main {
         };
         structures.put(GlobalUserInterfaceLangController.LINKED_LINEAR_LIST, linkedList);
 
-        HashMap<LangString, WorkSpacePairController> handlers = new HashMap<>();
+        HashMap<LangString, WorkSpacePairControllerConstructor> handlers = new HashMap<>();
 
-        WorkSpacePairController singly = new SinglyLinkedList();
-
-        handlers.put(linkedList[0], singly);
+        handlers.put(linkedList[0], new WorkSpacePairControllerConstructor() {
+            @Override
+            public WorkSpacePairController getter() {
+                return new SinglyLinkedList();
+            }
+        });
 
         new GlobalUserInterfaceFramework(structures, handlers);
     }

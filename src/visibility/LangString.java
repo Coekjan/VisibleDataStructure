@@ -12,15 +12,15 @@ public class LangString {
             "简体中文",
             "English"
     };
-    private final String[] getter = new String[LANG_NUM];
+    private final String[] langArray = new String[LANG_NUM];
 
     public LangString(String ch, String en) {
-        getter[0] = ch;
-        getter[1] = en;
+        langArray[0] = ch;
+        langArray[1] = en;
     }
 
     @Override
     public String toString() {
-        return getter[GlobalUserInterfaceLangController.currentLangIndex];
+        return langArray[GlobalUserInterfaceLangController.currentLangIndex];
     }
 }
