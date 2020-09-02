@@ -14,13 +14,13 @@ import java.util.Hashtable;
  * @Date 9/1/2020
  */
 public class GlobalUserInterfaceFramework extends JFrame {
-    private GlobalUserInterfaceFramework self = this;
+    private final GlobalUserInterfaceFramework self = this;
     private static final Dimension FRAME_DIMENSION = new Dimension(1000, 650);
     private boolean save = true;
 
     private final Hashtable<LangString, LangString[]> structures;
     private final HashMap<LangString, CanvasPairControllerConstructor> handlers;
-    private JSplitPane workSpace = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+    private final JSplitPane workSpace = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
     public GlobalUserInterfaceFramework(Hashtable<LangString, LangString[]> structures,
                                         HashMap<LangString, CanvasPairControllerConstructor> handlers) {
@@ -130,14 +130,12 @@ public class GlobalUserInterfaceFramework extends JFrame {
             aboutFeedback.addActionListener(e -> {
 
             }); // TODO
-            aboutAuthor.addActionListener(e -> {
-                JOptionPane.showMessageDialog(
-                        self,
-                        GlobalUserInterfaceLangController.AUTHOR.toString(),
-                        GlobalUserInterfaceLangController.MENU_TEXT_ABOUT_AUTHOR.toString(),
-                        JOptionPane.PLAIN_MESSAGE
-                );
-            });
+            aboutAuthor.addActionListener(e -> JOptionPane.showMessageDialog(
+                    self,
+                    GlobalUserInterfaceLangController.AUTHOR.toString(),
+                    GlobalUserInterfaceLangController.MENU_TEXT_ABOUT_AUTHOR.toString(),
+                    JOptionPane.PLAIN_MESSAGE
+            ));
             this.add(file);
             this.add(about);
         }
