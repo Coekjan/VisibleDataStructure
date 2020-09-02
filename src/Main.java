@@ -16,11 +16,11 @@ public class Main {
         };
         structures.put(GlobalUserInterfaceLangController.LINKED_LINEAR_LIST, linkedList);
 
-        HashMap<LangString, WorkSpacePairControllerConstructor> handlers = new HashMap<>();
+        HashMap<LangString, CanvasPairControllerConstructor> handlers = new HashMap<>();
 
-        handlers.put(linkedList[0], new WorkSpacePairControllerConstructor() {
+        handlers.put(linkedList[0], new CanvasPairControllerConstructor() {
             @Override
-            public WorkSpacePairController getter() {
+            public CanvasPairController getter() {
                 return new SinglyLinkedList();
             }
         });

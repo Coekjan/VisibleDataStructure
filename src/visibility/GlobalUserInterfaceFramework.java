@@ -19,11 +19,11 @@ public class GlobalUserInterfaceFramework extends JFrame {
     private boolean save = true;
 
     private final Hashtable<LangString, LangString[]> structures;
-    private final HashMap<LangString, WorkSpacePairControllerConstructor> handlers;
+    private final HashMap<LangString, CanvasPairControllerConstructor> handlers;
     private JSplitPane workSpace = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
     public GlobalUserInterfaceFramework(Hashtable<LangString, LangString[]> structures,
-                                        HashMap<LangString, WorkSpacePairControllerConstructor> handlers) {
+                                        HashMap<LangString, CanvasPairControllerConstructor> handlers) {
         this.structures = new Hashtable<>(structures);
         this.handlers = new HashMap<>(handlers);
 
@@ -161,11 +161,11 @@ public class GlobalUserInterfaceFramework extends JFrame {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE) != JOptionPane.NO_OPTION) {
                         nowNode = selectedNode;
-                        WorkSpacePairController workSpacePairController = self.handlers.get(selectedNode.getUserObject()).getter();
-                        JSplitPane controller = workSpacePairController.getController();
+                        CanvasPairController canvasPairController = self.handlers.get(selectedNode.getUserObject()).getter();
+                        JSplitPane controller = canvasPairController.getController();
                         controller.setDividerLocation(FRAME_DIMENSION.width * 3 / 5);
                         self.workSpace.removeAll();
-                        self.workSpace.setTopComponent(workSpacePairController.getCanvas());
+                        self.workSpace.setTopComponent(canvasPairController.getCanvas());
                         self.workSpace.setBottomComponent(controller);
                         self.workSpace.setDividerSize(2);
                         self.workSpace.updateUI();

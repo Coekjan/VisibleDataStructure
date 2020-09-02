@@ -1,7 +1,7 @@
 package structures;
 
 import visibility.GlobalUserInterfaceLangController;
-import visibility.WorkSpacePairController;
+import visibility.CanvasPairController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.awt.geom.QuadCurve2D;
  * @author Yip Coekjan
  * @Date 9/1/2020
  */
-public class SinglyLinkedList extends WorkSpacePairController {
+public class SinglyLinkedList extends CanvasPairController {
 
     private int count = 0;
     private SinglyLinkedNode head = null;
