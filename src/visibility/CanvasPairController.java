@@ -7,14 +7,14 @@ import java.awt.*;
  * @author Yip Coekjan
  * @Date 9/1/2020
  */
-public abstract class WorkSpacePairController {
+public abstract class CanvasPairController {
     protected final DrawablePane workSpace = new DrawablePane();
     protected final JSplitPane controller = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
     protected final JTabbedPane tabbedController = new JTabbedPane();
     protected final JPanel infoControllerPane = new JPanel();
     protected GridLayout infoController = new GridLayout(0, 2);
 
-    public WorkSpacePairController() {
+    public CanvasPairController() {
         this.workSpace.setLayout(null);
         this.controller.setLeftComponent(tabbedController);
         this.controller.setRightComponent(infoControllerPane);
