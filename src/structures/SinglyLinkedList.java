@@ -1,7 +1,7 @@
 package structures;
 
 import visibility.GlobalUserInterfaceLangController;
-import visibility.WorkSpaceConfig;
+import visibility.WorkSpacePairController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,45 +13,30 @@ import java.awt.geom.QuadCurve2D;
  * @author Yip Coekjan
  * @Date 9/1/2020
  */
-public class SinglyLinkedList extends WorkSpaceConfig {
+public class SinglyLinkedList extends WorkSpacePairController {
 
     private int count = 0;
     private SinglyLinkedNode head = null;
     private SinglyLinkedNode tail = null;
+    private final Box nodeAdder = Box.createVerticalBox();
+    private final Box nodeDeleter = Box.createVerticalBox();
 
     public SinglyLinkedList() {
-        canvasHandlerLayout.setRows(2);
-        canvasHandlerLayout.setColumns(3);
-
+        this.tabbedController.addTab(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER.toString(), nodeAdder);
+        this.tabbedController.addTab(GlobalUserInterfaceLangController.STRUCT_NODE_DELETER.toString(), nodeDeleter);
         JButton appendButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER_APPEND.toString());
         appendButton.addActionListener(e -> {
             String inputContent = JOptionPane.showInputDialog(
-                    this.canvas,
+                    this.workSpace,
                     GlobalUserInterfaceLangController.STRUCT_NODE_ADD_MESSAGE.toString(),
-                    GlobalUserInterfaceLangController.STRUCT_NODE_ADD_HINT.toString() + (count + 1)
+                    GlobalUserInterfaceLangController.STRUCT_NODE_ADD_DEFAULT.toString() + (count + 1)
             );
             if(inputContent != null) {
                 append(inputContent);
-                updateCanvasComponents();
+                updateComponents();
             }
         });
-
-        JButton aheadButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER_AHEAD.toString());
-        aheadButton.addActionListener(e -> {
-            String inputContent = JOptionPane.showInputDialog(
-                    this.canvas,
-                    GlobalUserInterfaceLangController.STRUCT_NODE_ADD_MESSAGE.toString(),
-                    GlobalUserInterfaceLangController.STRUCT_NODE_ADD_HINT.toString() + (count + 1)
-            );
-            if(inputContent != null) {
-                ahead(inputContent);
-                updateCanvasComponents();
-            }
-        });
-
-        canvasHandler.add(appendButton);
-        canvasHandler.add(aheadButton);
-
+        nodeAdder.add(appendButton);
     }
 
     private class SinglyLinkedNode extends StructureNode {
@@ -67,24 +52,24 @@ public class SinglyLinkedList extends WorkSpaceConfig {
 
         public SinglyLinkedNode(String data) {
             super(data);
-            button = (pos) -> {
+            button = pos -> {
+                JButton button = new JButton();
                 this.pos.x = pos.x;
                 this.pos.y = pos.y;
-                JButton button = new JButton();
-                button.setText(Integer.toString(id));
+                button.setText(Integer.toString(this.id));
                 button.setLocation(this.pos.x, this.pos.y);
                 button.setSize(SIZE);
                 button.addActionListener(e -> onClickListener());
                 return button;
             };
             connections = () -> {
-                Shape shape;
+                Shape shape = null;
                 if(next == null) {
                     shape = new QuadCurve2D.Double(
                             this.pos.x + SIZE.width,
                             this.pos.y,
-                            this.pos.x + SIZE.width * 1.5,
-                            this.pos.y - (SIZE.height >> 1),
+                            this.pos.x + 1.5 * SIZE.width,
+                            this.pos.y - 0.5 * SIZE.height,
                             this.pos.x + (SIZE.width << 1),
                             this.pos.y
                     );
@@ -93,7 +78,7 @@ public class SinglyLinkedList extends WorkSpaceConfig {
                             this.pos.x + SIZE.width,
                             this.pos.y,
                             (this.pos.x + (next.pos.x << 1)) / 3.0,
-                            Math.min(this.pos.y, next.pos.y) - (SIZE.height >> 1),
+                            Math.min(pos.y, next.pos.y) - (SIZE.height >> 1),
                             next.pos.x + (SIZE.width >> 1),
                             next.pos.y
                     );
@@ -130,15 +115,13 @@ public class SinglyLinkedList extends WorkSpaceConfig {
         @Override
         protected void onClickListener() {
             dataField.setText(data);
-            infoControllerLayout.setRows(3);
-            infoControllerLayout.setColumns(2);
-            infoController.removeAll();
-            infoController.add(idText);
-            infoController.add(idField);
-            infoController.add(nextText);
-            infoController.add(nextField);
-            infoController.add(dataText);
-            infoController.add(dataField);
+            infoControllerPane.removeAll();
+            infoControllerPane.add(idText);
+            infoControllerPane.add(idField);
+            infoControllerPane.add(nextText);
+            infoControllerPane.add(nextField);
+            infoControllerPane.add(dataText);
+            infoControllerPane.add(dataField);
             controller.updateUI();
         }
     }
@@ -152,34 +135,22 @@ public class SinglyLinkedList extends WorkSpaceConfig {
         }
     }
 
-    private void ahead(String data) {
-        SinglyLinkedNode node = new SinglyLinkedNode(data);
-        if(head == null) head = tail = node;
-        else {
-            node.link(head);
-            head = node;
-        }
-    }
-
     @Override
-    public void config(JScrollPane workSpace) {
-
-    }
-
-    @Override
-    protected void updateCanvasComponents() {
-        final Point pos = new Point(StructureNode.SIZE.width, StructureNode.SIZE.height);
-        canvas.removeAll();
+    protected void updateComponents() {
+        final Point nextPoint = new Point(StructureNode.SIZE.width, StructureNode.SIZE.height);
+        workSpace.removeAll();
         for(SinglyLinkedNode pointer = head; pointer != null; pointer = pointer.next) {
-            canvas.add(pointer.button.button(pos));
-            canvas.add(pointer.connections);
-            pos.x += StructureNode.SIZE.width << 1;
-            if(pos.x >= canvas.getWidth() - StructureNode.SIZE.width) {
-                pos.y += StructureNode.SIZE.height << 1;
-                pos.x = StructureNode.SIZE.width;
+            workSpace.add(pointer.button.button(nextPoint));
+            workSpace.add(pointer.connections);
+            nextPoint.x += StructureNode.SIZE.width << 1;
+            if(nextPoint.x + StructureNode.SIZE.width >= workSpace.getWidth()) {
+                nextPoint.x = StructureNode.SIZE.width;
+                nextPoint.y += StructureNode.SIZE.height << 1;
+                if(nextPoint.y + StructureNode.SIZE.height >= workSpace.getHeight()) {
+                    break;
+                }
             }
         }
-        canvas.repaint();
+        workSpace.repaint();
     }
-
 }

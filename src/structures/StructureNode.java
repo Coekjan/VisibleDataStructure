@@ -1,6 +1,8 @@
 package structures;
 
-import javax.swing.*;
+import visibility.ChangeableButton;
+import visibility.ChangeableShape;
+
 import java.awt.*;
 
 /**
@@ -13,13 +15,13 @@ public abstract class StructureNode {
     protected String data;
     protected Point pos = new Point();
     public ChangeableShape connections;
+    public ChangeableButton button;
 
     protected final int id;
-    protected ChangeableButton button;
 
     public StructureNode(String data) {
         this.data = data;
-        this.id = this.initID();
+        this.id = initID();
     }
 
     protected abstract int initID();

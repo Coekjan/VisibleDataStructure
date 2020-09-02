@@ -1,4 +1,4 @@
-package structures;
+package visibility;
 
 import javax.swing.*;
 import java.awt.*;

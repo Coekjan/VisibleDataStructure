@@ -1,7 +1,5 @@
 package visibility;
 
-import structures.ChangeableShape;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,10 +10,6 @@ import java.util.ArrayList;
  */
 public class DrawablePane extends JPanel {
     protected final ArrayList<ChangeableShape> shapes = new ArrayList<>();
-
-    public DrawablePane(LayoutManager layout) {
-        super(layout);
-    }
 
     @Override
     protected void paintComponent(Graphics g) {

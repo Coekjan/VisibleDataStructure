@@ -5,5 +5,5 @@ package visibility;
  * @Date 9/2/2020
  */
 public interface WorkSpacePairControllerConstructor {
-    WorkSpaceConfig construct();
+    WorkSpacePairController getter();
 }
