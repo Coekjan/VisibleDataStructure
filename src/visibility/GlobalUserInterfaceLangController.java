@@ -97,13 +97,17 @@ public class GlobalUserInterfaceLangController {
             "在尾部增加结点",
             "Add a node to the tail"
     );
-    public static final LangString STRUCT_NODE_ADD_MESSAGE = new LangString(
-            "输入结点的数据",
-            "Input specific data for new node"
+    public static final LangString STRUCT_NODE_ADDER_AHEAD = new LangString(
+            "在头部增加结点",
+            "Add a node to the head"
     );
-    public static final LangString STRUCT_NODE_ADD_TITLE = new LangString(
-            "新建结点",
-            "New Node"
+    public static final LangString STRUCT_NODE_ADD_MESSAGE = new LangString(
+            "输入新结点的数据",
+            "Input specified data for new node"
+    );
+    public static final LangString STRUCT_NODE_ADD_HINT = new LangString(
+            "结点",
+            "Node"
     );
     public static final LangString STRUCT_NODE_POINT_NULL = new LangString(
             "<空结点>",

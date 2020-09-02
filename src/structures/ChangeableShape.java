@@ -1,4 +1,4 @@
-package visibility;
+package structures;
 
 import java.awt.*;
 

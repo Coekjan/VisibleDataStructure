@@ -9,18 +9,25 @@ import java.awt.event.WindowListener;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+import javax.swing.UIManager;
+
 /**
  * @author Yip Coekjan
  * @Date 9/1/2020
  */
 public class GlobalUserInterfaceFramework extends JFrame {
+    static {
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {}
+    }
     private GlobalUserInterfaceFramework self = this;
     private static final Dimension FRAME_DIMENSION = new Dimension(1500, 1000);
     private boolean save = true;
 
     private final Hashtable<LangString, LangString[]> structures;
     private final HashMap<LangString, WorkSpacePairControllerConstructor> handlers;
-    private JSplitPane workSpace = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+    private JScrollPane workSpace = new JScrollPane();
 
     public GlobalUserInterfaceFramework(Hashtable<LangString, LangString[]> structures,
                                         HashMap<LangString, WorkSpacePairControllerConstructor> handlers) {
@@ -29,7 +36,7 @@ public class GlobalUserInterfaceFramework extends JFrame {
 
         JScrollPane sourceManager = new GUIFrameworkSourceManagerTree();
         JSplitPane content = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-        this.add(content);
+        this.setContentPane(content);
         this.setTitle(GlobalUserInterfaceLangController.TITLE.toString());
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setSize(FRAME_DIMENSION);
@@ -58,9 +65,6 @@ public class GlobalUserInterfaceFramework extends JFrame {
         content.setRightComponent(workSpace);
         content.setDividerLocation(FRAME_DIMENSION.width >> 3);
         content.setDividerSize(2);
-
-        workSpace.setDividerLocation((FRAME_DIMENSION.height >> 2) * 3);
-
         this.setVisible(true);
     }
 
@@ -161,14 +165,7 @@ public class GlobalUserInterfaceFramework extends JFrame {
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE) != JOptionPane.NO_OPTION) {
                         nowNode = selectedNode;
-                        WorkSpacePairController workSpacePairController = self.handlers.get(selectedNode.getUserObject()).getter();
-                        JSplitPane controller = workSpacePairController.getController();
-                        controller.setDividerLocation((FRAME_DIMENSION.width >> 2) * 3);
-                        self.workSpace.removeAll();
-                        self.workSpace.setTopComponent(workSpacePairController.getWorkSpace());
-                        self.workSpace.setBottomComponent(controller);
-                        self.workSpace.setDividerSize(2);
-                        self.workSpace.updateUI();
+                        self.handlers.get(selectedNode.getUserObject()).construct().config(self.workSpace);
                         self.save = false;
                     } else {
                         tree.setSelectionPath(new TreePath(nowNode.getPath()));

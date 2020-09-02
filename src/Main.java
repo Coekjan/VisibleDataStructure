@@ -20,7 +20,7 @@ public class Main {
 
         handlers.put(linkedList[0], new WorkSpacePairControllerConstructor() {
             @Override
-            public WorkSpacePairController getter() {
+            public WorkSpaceConfig construct() {
                 return new SinglyLinkedList();
             }
         });

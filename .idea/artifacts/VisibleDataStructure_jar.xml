@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="VisibleDataStructure:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/VisibleDataStructure_jar</output-path>
+    <root id="archive" name="VisibleDataStructure.jar">
+      <element id="module-output" name="VisibleDataStructure" />
+    </root>
+  </artifact>
+</component>
