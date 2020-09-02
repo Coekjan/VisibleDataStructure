@@ -72,7 +72,15 @@ public class GlobalUserInterfaceLangController {
             "文件未保存, 切换数据结构将丢失文件数据! 确认切换吗?",
             "The file is not saved yet. if the structure is switched now, the data of file will be discarded! Confirm to switch?"
     );
-    public static final LangString STRUCTURE_SWITCH_WARNING_TITLE = new LangString(
+    public static final LangString STRUCT_NODE_CHOICE_MESSAGE = new LangString(
+            "选择一个结点代号",
+            "Choose an ID of node"
+    );
+    public static final LangString STRUCT_NODE_CHOICE_TITLE = new LangString(
+            "选择结点",
+            "Choose a node"
+    );
+    public static final LangString WARNING = new LangString(
             "警告",
             "Warning"
     );
@@ -85,6 +93,10 @@ public class GlobalUserInterfaceLangController {
             "删除结点",
             "Delete node"
     );
+    public static final LangString STRUCT_NOT_ENOUGH_NODES_MESSAGE = new LangString(
+            "结点数目不足.",
+            "The number of nodes is not enough."
+    );
     public static final LangString STRUCT_NODE_ID_TEXT = new LangString(
             "代号",
             "Identification"
@@ -96,6 +108,26 @@ public class GlobalUserInterfaceLangController {
     public static final LangString STRUCT_NODE_ADDER_APPEND = new LangString(
             "在尾部增加结点",
             "Add a node to the tail"
+    );
+    public static final LangString STRUCT_NODE_ADDER_AHEAD = new LangString(
+            "在头部增加结点",
+            "Add a node to the head"
+    );
+    public static final LangString STRUCT_NODE_ADDER_INSERT = new LangString(
+            "在邻位结点间增加结点",
+            "Add a node between neighbored nodes"
+    );
+    public static final LangString STRUCT_NODE_DELETER_TAIL = new LangString(
+            "从尾部删除结点",
+            "Delete a node from tail"
+    );
+    public static final LangString STRUCT_NODE_DELETER_HEAD = new LangString(
+            "从头部删除结点",
+            "Delete a node from head"
+    );
+    public static final LangString STRUCT_NODE_DELETER_SELECTION = new LangString(
+            "选择删除结点",
+            "Delete a node you choose"
     );
     public static final LangString STRUCT_NODE_ADD_MESSAGE = new LangString(
             "输入结点的数据",
@@ -116,7 +148,7 @@ public class GlobalUserInterfaceLangController {
     );
     public static final LangString LINKED_LINEAR_LIST_SINGLY_NOT_LOOP = new LangString(
             "单向不循环链表",
-            "Singly Linked List"
+            "Non-Circular Singly-Linked List"
     );
     public static final LangString SINGLY_LINKED_NODE_NEXT_TEXT = new LangString(
             "单向链接到",
@@ -124,6 +156,6 @@ public class GlobalUserInterfaceLangController {
     );
     public static final LangString LINKED_LINEAR_LIST_DOUBLE_NOT_LOOP = new LangString(
             "双向不循环链表",
-            "Doubly Linked List"
+            "Non-Circular Doubly-Linked List"
     );
 }

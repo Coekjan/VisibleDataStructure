@@ -20,6 +20,12 @@ public class DrawablePane extends JPanel {
         }
     }
 
+    @Override
+    public void removeAll() {
+        super.removeAll();
+        shapes.clear();
+    }
+
     public void add(ChangeableShape shape) {
         if (shape != null) {
             this.shapes.add(shape);

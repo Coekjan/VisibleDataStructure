@@ -56,6 +56,7 @@ public class GlobalUserInterfaceFramework extends JFrame {
 
         content.setLeftComponent(sourceManager);
         content.setRightComponent(workSpace);
+        content.setEnabled(false);
         content.setDividerLocation(FRAME_DIMENSION.width / 5);
         content.setDividerSize(2);
 
@@ -157,7 +158,7 @@ public class GlobalUserInterfaceFramework extends JFrame {
                     if(save || JOptionPane.showConfirmDialog(
                             self,
                             GlobalUserInterfaceLangController.STRUCTURE_SWITCH_WARNING_MESSAGE.toString(),
-                            GlobalUserInterfaceLangController.STRUCTURE_SWITCH_WARNING_TITLE.toString(),
+                            GlobalUserInterfaceLangController.WARNING.toString(),
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE) != JOptionPane.NO_OPTION) {
                         nowNode = selectedNode;

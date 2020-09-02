@@ -2,7 +2,6 @@ package structures;
 
 import visibility.ChangeableButton;
 import visibility.ChangeableShape;
-
 import java.awt.*;
 
 /**

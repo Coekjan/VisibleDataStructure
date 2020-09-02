@@ -14,29 +14,78 @@ import java.awt.geom.QuadCurve2D;
  * @Date 9/1/2020
  */
 public class SinglyLinkedList extends CanvasPairController {
-
-    private int count = 0;
     private SinglyLinkedNode head = null;
     private SinglyLinkedNode tail = null;
-    private final Box nodeAdder = Box.createVerticalBox();
-    private final Box nodeDeleter = Box.createVerticalBox();
+    private int length = 0;
 
     public SinglyLinkedList() {
-        this.tabbedController.addTab(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER.toString(), nodeAdder);
-        this.tabbedController.addTab(GlobalUserInterfaceLangController.STRUCT_NODE_DELETER.toString(), nodeDeleter);
         JButton appendButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER_APPEND.toString());
         appendButton.addActionListener(e -> {
-            String inputContent = JOptionPane.showInputDialog(
-                    this.workSpace,
-                    GlobalUserInterfaceLangController.STRUCT_NODE_ADD_MESSAGE.toString(),
-                    GlobalUserInterfaceLangController.STRUCT_NODE_ADD_DEFAULT.toString() + (count + 1)
-            );
+            String inputContent = dialogInputDataForNode();
             if(inputContent != null) {
                 append(inputContent);
                 updateComponents();
             }
         });
-        nodeAdder.add(appendButton);
+
+        JButton aheadButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER_AHEAD.toString());
+        aheadButton.addActionListener(e -> {
+            String inputContent = dialogInputDataForNode();
+            if(inputContent != null) {
+                ahead(inputContent);
+                updateComponents();
+            }
+        });
+
+        JButton insertButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_ADDER_INSERT.toString());
+        insertButton.addActionListener(e -> {
+            if(length < 2) {
+                dialogNotEnoughNode();
+            } else {
+                SinglyLinkedNode selected = dialogSelectNodeByID();
+                String inputData = dialogInputDataForNode();
+                insert(selected, inputData);
+                updateComponents();
+            }
+        });
+
+        JButton deleteTailButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_DELETER_TAIL.toString());
+        deleteTailButton.addActionListener(e -> {
+            if(length < 1) {
+                dialogNotEnoughNode();
+            } else {
+                deleteTail();
+                updateComponents();
+            }
+        });
+
+        JButton deleteHeadButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_DELETER_HEAD.toString());
+        deleteHeadButton.addActionListener(e -> {
+            if(length < 1) {
+                dialogNotEnoughNode();
+            } else {
+                deleteHead();
+                updateComponents();
+            }
+        });
+
+        JButton deleteSelectionButton = new JButton(GlobalUserInterfaceLangController.STRUCT_NODE_DELETER_SELECTION.toString());
+        deleteSelectionButton.addActionListener(e -> {
+            if(length < 1) {
+                dialogNotEnoughNode();
+            } else {
+                SinglyLinkedNode selection = dialogSelectNodeByID();
+                deleteNode(selection);
+                updateComponents();
+            }
+        });
+
+        adderAndDeleter.add(appendButton);
+        adderAndDeleter.add(aheadButton);
+        adderAndDeleter.add(insertButton);
+        adderAndDeleter.add(deleteTailButton);
+        adderAndDeleter.add(deleteHeadButton);
+        adderAndDeleter.add(deleteSelectionButton);
     }
 
     private class SinglyLinkedNode extends StructureNode {
@@ -63,7 +112,7 @@ public class SinglyLinkedList extends CanvasPairController {
                 return button;
             };
             connections = () -> {
-                Shape shape = null;
+                Shape shape;
                 if(next == null) {
                     shape = new QuadCurve2D.Double(
                             this.pos.x + SIZE.width,
@@ -104,7 +153,8 @@ public class SinglyLinkedList extends CanvasPairController {
 
         public void link(SinglyLinkedNode node) {
             this.next = node;
-            nextField.setText(Integer.toString(next.id));
+            if(node == null) nextField.setText(GlobalUserInterfaceLangController.STRUCT_NODE_POINT_NULL.toString());
+            else nextField.setText(Integer.toString(next.id));
         }
 
         @Override
@@ -126,6 +176,38 @@ public class SinglyLinkedList extends CanvasPairController {
         }
     }
 
+    private SinglyLinkedNode dialogSelectNodeByID() {
+        Integer[] idArray = new Integer[length];
+        int i = 0;
+        for(SinglyLinkedNode node = head; node != null; node = node.next, i++) {
+            idArray[i] = node.id;
+        }
+        Integer inputContent = (Integer) JOptionPane.showInputDialog(
+                getCanvas(),
+                GlobalUserInterfaceLangController.STRUCT_NODE_CHOICE_MESSAGE.toString(),
+                GlobalUserInterfaceLangController.STRUCT_NODE_CHOICE_TITLE.toString(),
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                idArray,
+                idArray[0]
+        );
+        for(SinglyLinkedNode node = head; node != null; node = node.next) {
+            if(inputContent.equals(node.id)) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    private void dialogNotEnoughNode() {
+        JOptionPane.showMessageDialog(
+                null,
+                GlobalUserInterfaceLangController.STRUCT_NOT_ENOUGH_NODES_MESSAGE.toString(),
+                GlobalUserInterfaceLangController.WARNING.toString(),
+                JOptionPane.WARNING_MESSAGE
+        );
+    }
+
     private void append(String data) {
         SinglyLinkedNode node = new SinglyLinkedNode(data);
         if(head == null) head = tail = node;
@@ -133,24 +215,82 @@ public class SinglyLinkedList extends CanvasPairController {
             tail.link(node);
             tail = node;
         }
+        length++;
+    }
+
+    private void ahead(String data) {
+        SinglyLinkedNode node = new SinglyLinkedNode(data);
+        if(head == null) head = tail = node;
+        else {
+            node.link(head);
+            head = node;
+        }
+        length++;
+    }
+
+    private void insert(SinglyLinkedNode node, String data) {
+        if(node == tail) {
+            append(data);
+        } else {
+            SinglyLinkedNode newNode = new SinglyLinkedNode(data);
+            newNode.link(node.next);
+            node.link(newNode);
+            length++;
+        }
+    }
+
+    private void deleteTail() {
+        if(head == tail) head = tail = null;
+        else for(SinglyLinkedNode node = head; ; node = node.next) {
+            if(node.next == tail) {
+                tail = node;
+                tail.link(null);
+                break;
+            }
+        }
+        length--;
+    }
+
+    private void deleteHead() {
+        if(head == tail) head = tail = null;
+        else {
+            head = head.next;
+        }
+        length--;
+    }
+
+    private void deleteNode(SinglyLinkedNode node) {
+        if(head == tail || node == tail) {
+            deleteTail();
+        } else if(head == node) {
+            deleteHead();
+        } else {
+            for(SinglyLinkedNode pointer = head; ; pointer = pointer.next) {
+                if(pointer.next == node) {
+                    pointer.link(node.next);
+                    break;
+                }
+            }
+            length--;
+        }
     }
 
     @Override
     protected void updateComponents() {
         final Point nextPoint = new Point(StructureNode.SIZE.width, StructureNode.SIZE.height);
-        workSpace.removeAll();
+        canvas.removeAll();
         for(SinglyLinkedNode pointer = head; pointer != null; pointer = pointer.next) {
-            workSpace.add(pointer.button.button(nextPoint));
-            workSpace.add(pointer.connections);
+            canvas.add(pointer.button.button(nextPoint));
+            canvas.add(pointer.connections);
             nextPoint.x += StructureNode.SIZE.width << 1;
-            if(nextPoint.x + StructureNode.SIZE.width >= workSpace.getWidth()) {
+            if(nextPoint.x + StructureNode.SIZE.width >= canvas.getWidth()) {
                 nextPoint.x = StructureNode.SIZE.width;
                 nextPoint.y += StructureNode.SIZE.height << 1;
-                if(nextPoint.y + StructureNode.SIZE.height >= workSpace.getHeight()) {
+                if(nextPoint.y + StructureNode.SIZE.height >= canvas.getHeight()) {
                     break;
                 }
             }
         }
-        workSpace.repaint();
+        canvas.repaint();
     }
 }
