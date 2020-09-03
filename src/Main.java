@@ -1,4 +1,4 @@
-import structures.SinglyLinkedList;
+import structures.SinglyLinkedListController;
 import visibility.*;
 
 import java.util.HashMap;
@@ -12,19 +12,14 @@ public class Main {
     public static void main(String[] args) {
         Hashtable<LangString, LangString[]> structures = new Hashtable<>();
         LangString[] linkedList = {
-                GlobalUserInterfaceLangController.LINKED_LINEAR_LIST_SINGLY_NOT_LOOP
+                GUILangSupporter.LINKED_LINEAR_LIST_SINGLY_NOT_LOOP
         };
-        structures.put(GlobalUserInterfaceLangController.LINKED_LINEAR_LIST, linkedList);
+        structures.put(GUILangSupporter.LINKED_LINEAR_LIST, linkedList);
 
         HashMap<LangString, CanvasPairControllerConstructor> handlers = new HashMap<>();
 
-        handlers.put(linkedList[0], new CanvasPairControllerConstructor() {
-            @Override
-            public CanvasPairController getter() {
-                return new SinglyLinkedList();
-            }
-        });
+        handlers.put(linkedList[0], () -> new SinglyLinkedListController());
 
-        new GlobalUserInterfaceFramework(structures, handlers);
+        new GUIFramework(structures, handlers);
     }
 }

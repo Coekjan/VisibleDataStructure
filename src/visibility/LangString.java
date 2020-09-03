@@ -21,6 +21,6 @@ public class LangString {
 
     @Override
     public String toString() {
-        return langArray[GlobalUserInterfaceLangController.currentLangIndex];
+        return langArray[GUILangSupporter.currentLangIndex];
     }
 }

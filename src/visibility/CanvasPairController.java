@@ -25,11 +25,11 @@ public abstract class CanvasPairController {
         this.controller.updateUI();
     }
 
-    protected String dialogInputDataForNode() {
+    protected String dialogInputData() {
         return JOptionPane.showInputDialog(
                 canvas,
-                GlobalUserInterfaceLangController.STRUCT_NODE_ADD_MESSAGE.toString(),
-                GlobalUserInterfaceLangController.STRUCT_NODE_ADD_DEFAULT.toString() + (count + 1)
+                GUILangSupporter.DATA_ADD_MESSAGE.toString(),
+                GUILangSupporter.DATA_ADD_DEFAULT.toString() + (count + 1)
         );
     }
 

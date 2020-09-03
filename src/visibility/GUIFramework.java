@@ -1,5 +1,7 @@
 package visibility;
 
+import structures.StructureNodeController;
+
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -13,24 +15,31 @@ import java.util.Hashtable;
  * @author Yip Coekjan
  * @Date 9/1/2020
  */
-public class GlobalUserInterfaceFramework extends JFrame {
-    private final GlobalUserInterfaceFramework self = this;
-    private static final Dimension FRAME_DIMENSION = new Dimension(1000, 650);
+public class GUIFramework extends JFrame {
+    private final GUIFramework self = this;
+    private static final Dimension FRAME_DIMENSION;
     private boolean save = true;
+
+    static {
+        FRAME_DIMENSION = new Dimension(
+                StructureNodeController.SIZE.width * 25,
+                StructureNodeController.SIZE.width * 15
+        );
+    }
 
     private final Hashtable<LangString, LangString[]> structures;
     private final HashMap<LangString, CanvasPairControllerConstructor> handlers;
     private final JSplitPane workSpace = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
-    public GlobalUserInterfaceFramework(Hashtable<LangString, LangString[]> structures,
-                                        HashMap<LangString, CanvasPairControllerConstructor> handlers) {
+    public GUIFramework(Hashtable<LangString, LangString[]> structures,
+                        HashMap<LangString, CanvasPairControllerConstructor> handlers) {
         this.structures = new Hashtable<>(structures);
         this.handlers = new HashMap<>(handlers);
 
         JScrollPane sourceManager = new GUIFrameworkSourceManagerTree();
         JSplitPane content = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         this.add(content);
-        this.setTitle(GlobalUserInterfaceLangController.TITLE.toString());
+        this.setTitle(GUILangSupporter.TITLE.toString());
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setSize(FRAME_DIMENSION);
         this.setLocationRelativeTo(null);
@@ -57,7 +66,7 @@ public class GlobalUserInterfaceFramework extends JFrame {
         content.setLeftComponent(sourceManager);
         content.setRightComponent(workSpace);
         content.setEnabled(false);
-        content.setDividerLocation(FRAME_DIMENSION.width / 5);
+        content.setDividerLocation(FRAME_DIMENSION.width / 7);
         content.setDividerSize(2);
 
         workSpace.setDividerLocation(FRAME_DIMENSION.height * 3 / 4);
@@ -67,19 +76,19 @@ public class GlobalUserInterfaceFramework extends JFrame {
 
     private class GUIFrameworkMenuBar extends JMenuBar {
         public GUIFrameworkMenuBar() {
-            JMenu file = new JMenu(GlobalUserInterfaceLangController.MENU_TEXT_FILE.toString());
-            JMenuItem fileNewFile = new JMenuItem(GlobalUserInterfaceLangController.MENU_TEXT_FILE_NEW.toString());
-            JMenuItem fileOpenFile = new JMenuItem(GlobalUserInterfaceLangController.MENU_TEXT_FILE_OPEN.toString());
-            JMenuItem fileSaveFile = new JMenuItem(GlobalUserInterfaceLangController.MENU_TEXT_FILE_SAVE.toString());
-            JMenuItem fileLang = new JMenuItem(GlobalUserInterfaceLangController.MENU_TEXT_FILE_LANG.toString());
-            JMenuItem fileExit = new JMenuItem(GlobalUserInterfaceLangController.MENU_TEXT_FILE_EXIT.toString());
+            JMenu file = new JMenu(GUILangSupporter.MENU_TEXT_FILE.toString());
+            JMenuItem fileNewFile = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_NEW.toString());
+            JMenuItem fileOpenFile = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_OPEN.toString());
+            JMenuItem fileSaveFile = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_SAVE.toString());
+            JMenuItem fileLang = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_LANG.toString());
+            JMenuItem fileExit = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_EXIT.toString());
             file.add(fileNewFile);
             file.add(fileOpenFile);
             file.add(fileSaveFile);
             file.add(fileLang);
             file.addSeparator();
             file.add(fileExit);
-            fileNewFile.addActionListener(e -> new GlobalUserInterfaceFramework(self.structures, self.handlers));
+            fileNewFile.addActionListener(e -> new GUIFramework(self.structures, self.handlers));
             fileOpenFile.addActionListener(e -> {
 
             }); // TODO
@@ -89,25 +98,25 @@ public class GlobalUserInterfaceFramework extends JFrame {
             fileLang.addActionListener(e -> {
                 String input = (String) JOptionPane.showInputDialog(
                         self,
-                        GlobalUserInterfaceLangController.MENU_TEXT_FILE_LANG.toString(),
-                        GlobalUserInterfaceLangController.LANG_CHOOSE_TITLE.toString(),
+                        GUILangSupporter.MENU_TEXT_FILE_LANG.toString(),
+                        GUILangSupporter.LANG_CHOOSE_TITLE.toString(),
                         JOptionPane.PLAIN_MESSAGE,
                         null,
                         LangString.languages,
-                        LangString.languages[GlobalUserInterfaceLangController.currentLangIndex]
+                        LangString.languages[GUILangSupporter.currentLangIndex]
                 );
-                if(!input.equals(LangString.languages[GlobalUserInterfaceLangController.currentLangIndex])) {
+                if(!input.equals(LangString.languages[GUILangSupporter.currentLangIndex])) {
                     if(save || JOptionPane.showConfirmDialog(
                             self,
-                            GlobalUserInterfaceLangController.LANG_CHANGE_BUT_NOT_SAVE.toString(),
-                            GlobalUserInterfaceLangController.NOT_SAVE_TITLE.toString(),
+                            GUILangSupporter.LANG_CHANGE_BUT_NOT_SAVE.toString(),
+                            GUILangSupporter.NOT_SAVE_TITLE.toString(),
                             JOptionPane.YES_NO_OPTION
                     ) == JOptionPane.YES_OPTION) {
                         for(int i = 0; i < LangString.languages.length; i++) {
                             if(LangString.languages[i].equals(input)) {
-                                GlobalUserInterfaceLangController.currentLangIndex = i;
+                                GUILangSupporter.currentLangIndex = i;
                                 self.dispose();
-                                new GlobalUserInterfaceFramework(structures, handlers);
+                                new GUIFramework(structures, handlers);
                                 break;
                             }
                         }
@@ -116,10 +125,10 @@ public class GlobalUserInterfaceFramework extends JFrame {
 
             });
             fileExit.addActionListener(e -> onExitListener());
-            JMenu about = new JMenu(GlobalUserInterfaceLangController.MENU_TEXT_ABOUT.toString());
-            JMenuItem aboutSponsor = new JMenuItem(GlobalUserInterfaceLangController.MENU_TEXT_ABOUT_SPONSOR.toString());
-            JMenuItem aboutFeedback = new JMenuItem(GlobalUserInterfaceLangController.MENU_TEXT_ABOUT_FEEDBACK.toString());
-            JMenuItem aboutAuthor = new JMenuItem(GlobalUserInterfaceLangController.MENU_TEXT_ABOUT_AUTHOR.toString());
+            JMenu about = new JMenu(GUILangSupporter.MENU_TEXT_ABOUT.toString());
+            JMenuItem aboutSponsor = new JMenuItem(GUILangSupporter.MENU_TEXT_ABOUT_SPONSOR.toString());
+            JMenuItem aboutFeedback = new JMenuItem(GUILangSupporter.MENU_TEXT_ABOUT_FEEDBACK.toString());
+            JMenuItem aboutAuthor = new JMenuItem(GUILangSupporter.MENU_TEXT_ABOUT_AUTHOR.toString());
             about.add(aboutSponsor);
             about.add(aboutAuthor);
             about.addSeparator();
@@ -132,8 +141,8 @@ public class GlobalUserInterfaceFramework extends JFrame {
             }); // TODO
             aboutAuthor.addActionListener(e -> JOptionPane.showMessageDialog(
                     self,
-                    GlobalUserInterfaceLangController.AUTHOR.toString(),
-                    GlobalUserInterfaceLangController.MENU_TEXT_ABOUT_AUTHOR.toString(),
+                    GUILangSupporter.AUTHOR.toString(),
+                    GUILangSupporter.MENU_TEXT_ABOUT_AUTHOR.toString(),
                     JOptionPane.PLAIN_MESSAGE
             ));
             this.add(file);
@@ -155,12 +164,12 @@ public class GlobalUserInterfaceFramework extends JFrame {
                         && selectedNode != tree.getModel().getRoot() && selectedNode.isLeaf()) {
                     if(save || JOptionPane.showConfirmDialog(
                             self,
-                            GlobalUserInterfaceLangController.STRUCTURE_SWITCH_WARNING_MESSAGE.toString(),
-                            GlobalUserInterfaceLangController.WARNING.toString(),
+                            GUILangSupporter.STRUCTURE_SWITCH_WARNING_MESSAGE.toString(),
+                            GUILangSupporter.WARNING.toString(),
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE) != JOptionPane.NO_OPTION) {
                         nowNode = selectedNode;
-                        CanvasPairController canvasPairController = self.handlers.get(selectedNode.getUserObject()).getter();
+                        CanvasPairController canvasPairController = self.handlers.get(selectedNode.getUserObject()).construct();
                         JSplitPane controller = canvasPairController.getController();
                         controller.setDividerLocation(FRAME_DIMENSION.width * 3 / 5);
                         self.workSpace.removeAll();
@@ -180,8 +189,8 @@ public class GlobalUserInterfaceFramework extends JFrame {
     private void onExitListener() {
         if(save || JOptionPane.showConfirmDialog(
                 this,
-                GlobalUserInterfaceLangController.EXIT_BUT_NOT_SAVE_MESSAGE.toString(),
-                GlobalUserInterfaceLangController.NOT_SAVE_TITLE.toString(),
+                GUILangSupporter.EXIT_BUT_NOT_SAVE_MESSAGE.toString(),
+                GUILangSupporter.NOT_SAVE_TITLE.toString(),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
         ) == JOptionPane.YES_OPTION) {

@@ -9,13 +9,13 @@ import java.util.ArrayList;
  * @Date 9/1/2020
  */
 public class DrawablePane extends JPanel {
-    protected final ArrayList<ChangeableShape> shapes = new ArrayList<>();
+    protected final ArrayList<ButtonPairShapeConstructor> shapes = new ArrayList<>();
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for(ChangeableShape shape : shapes) {
-            ((Graphics2D)g).setStroke(new BasicStroke(2));
+        for(ButtonPairShapeConstructor shape : shapes) {
+            ((Graphics2D)g).setStroke(new BasicStroke(4));
             ((Graphics2D)g).draw(shape.shape());
         }
     }
@@ -26,9 +26,10 @@ public class DrawablePane extends JPanel {
         shapes.clear();
     }
 
-    public void add(ChangeableShape shape) {
-        if (shape != null) {
-            this.shapes.add(shape);
+    public void add(ButtonPairShapeConstructor buttonPairShape, int x, int y) {
+        if(buttonPairShape != null) {
+            add(buttonPairShape.button(x, y));
+            shapes.add(buttonPairShape);
         }
     }
 }

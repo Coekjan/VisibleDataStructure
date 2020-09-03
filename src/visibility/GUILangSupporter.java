@@ -1,6 +1,6 @@
 package visibility;
 
-public class GlobalUserInterfaceLangController {
+public final class GUILangSupporter {
     public static int currentLangIndex = LangString.CHINESE;
 
     public static final LangString TITLE = new LangString(
@@ -97,6 +97,10 @@ public class GlobalUserInterfaceLangController {
             "结点数目不足.",
             "The number of nodes is not enough."
     );
+    public static final LangString STRUCT_NOT_ENOUGH_SPACE_MESSAGE = new LangString(
+            "结点过多, 空间不足",
+            "The number of nodes is too big to display."
+    );
     public static final LangString STRUCT_NODE_ID_TEXT = new LangString(
             "代号",
             "Identification"
@@ -114,8 +118,8 @@ public class GlobalUserInterfaceLangController {
             "Add a node to the head"
     );
     public static final LangString STRUCT_NODE_ADDER_INSERT = new LangString(
-            "在邻位结点间增加结点",
-            "Add a node between neighbored nodes"
+            "在选定结点后增加结点",
+            "Add a node behind a specified node"
     );
     public static final LangString STRUCT_NODE_DELETER_TAIL = new LangString(
             "从尾部删除结点",
@@ -129,13 +133,13 @@ public class GlobalUserInterfaceLangController {
             "选择删除结点",
             "Delete a node you choose"
     );
-    public static final LangString STRUCT_NODE_ADD_MESSAGE = new LangString(
-            "输入结点的数据",
-            "Input specific data for new node"
+    public static final LangString DATA_ADD_MESSAGE = new LangString(
+            "输入数据",
+            "Input specific data"
     );
-    public static final LangString STRUCT_NODE_ADD_DEFAULT = new LangString(
-            "结点",
-            "Node"
+    public static final LangString DATA_ADD_DEFAULT = new LangString(
+            "数据",
+            "Data"
     );
     public static final LangString STRUCT_NODE_POINT_NULL = new LangString(
             "<空结点>",
