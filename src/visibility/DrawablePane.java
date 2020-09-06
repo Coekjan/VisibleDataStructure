@@ -14,6 +14,7 @@ public class DrawablePane extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         for(ButtonPairShapeConstructor shape : shapes) {
             ((Graphics2D)g).setStroke(new BasicStroke(4));
             ((Graphics2D)g).draw(shape.shape());
