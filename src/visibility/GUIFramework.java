@@ -1,6 +1,6 @@
 package visibility;
 
-import structures.StructureNodeController;
+import visibleStructure.StructureNodeController;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;

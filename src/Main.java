@@ -1,4 +1,4 @@
-import structures.SinglyLinkedListController;
+import visibleStructure.SinglyLinkedListController;
 import visibility.*;
 
 import java.util.HashMap;

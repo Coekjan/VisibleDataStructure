@@ -1,7 +1,6 @@
-package structures;
+package visibleStructure;
 
 import visibility.ButtonPairShapeConstructor;
-import visibility.GUIFramework;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +38,7 @@ public abstract class StructureNodeController {
             button.setText(Integer.toString(self.id));
             button.setLocation(self.pos.x, self.pos.y);
             button.setSize(SIZE);
-            button.addActionListener(e -> onClickListener());
+            button.addActionListener(e -> onClickListener(linkInfoController(), linkController()));
             return button;
         }
 
@@ -48,5 +47,7 @@ public abstract class StructureNodeController {
     }
     protected abstract Shape getShape();
     protected abstract int defineID();
-    protected abstract void onClickListener();
+    protected abstract void onClickListener(JPanel infoController, JSplitPane controller);
+    protected abstract JPanel linkInfoController();
+    protected abstract JSplitPane linkController();
 }

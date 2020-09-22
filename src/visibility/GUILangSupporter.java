@@ -151,15 +151,15 @@ public final class GUILangSupporter {
             "Linked Linear List"
     );
     public static final LangString LINKED_LINEAR_LIST_SINGLY_NOT_LOOP = new LangString(
-            "单向不循环链表",
-            "Non-Circular Singly-Linked List"
+            "单向链表",
+            "Singly-Linked List"
     );
     public static final LangString SINGLY_LINKED_NODE_NEXT_TEXT = new LangString(
             "单向链接到",
             "Singly-linked to"
     );
     public static final LangString LINKED_LINEAR_LIST_DOUBLE_NOT_LOOP = new LangString(
-            "双向不循环链表",
-            "Non-Circular Doubly-Linked List"
+            "双向链表",
+            "Doubly-Linked List"
     );
 }
