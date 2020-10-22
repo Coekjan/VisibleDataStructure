@@ -4,6 +4,7 @@ import visibility.ButtonPairShapeConstructor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @author Yip Coekjan
@@ -17,7 +18,7 @@ public abstract class StructureNodeController {
     protected final StructureNodeController self = this;
     public final StructureNodeButtonPairShape buttonPairShape = new StructureNodeButtonPairShape() {
         @Override
-        public Shape shape() {
+        public ArrayList<Shape> shapes() {
             return getShape();
         }
     };
@@ -43,9 +44,9 @@ public abstract class StructureNodeController {
         }
 
         @Override
-        public abstract Shape shape();
+        public abstract ArrayList<Shape> shapes();
     }
-    protected abstract Shape getShape();
+    protected abstract ArrayList<Shape> getShape();
     protected abstract int defineID();
     protected abstract void onClickListener(JPanel infoController, JSplitPane controller);
     protected abstract JPanel linkInfoController();

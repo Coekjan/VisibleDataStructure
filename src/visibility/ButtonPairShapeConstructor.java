@@ -2,6 +2,7 @@ package visibility;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @author Yip Coekjan
@@ -9,5 +10,5 @@ import java.awt.*;
  */
 public interface ButtonPairShapeConstructor {
     JButton button(int x, int y);
-    Shape shape();
+    ArrayList<Shape> shapes();
 }

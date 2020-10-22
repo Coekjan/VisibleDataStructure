@@ -4,6 +4,8 @@ import visibility.GUILangSupporter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.CubicCurve2D;
+import java.util.ArrayList;
 
 /**
  * @author Yip Coekjan
@@ -62,8 +64,25 @@ public class DoublyLinkedListController extends GeneralLinkedListController {
         }
 
         @Override
-        protected Shape getShape() {
-            return null;
+        protected ArrayList<Shape> getShape() {
+            Point from;
+            Point to;
+            if (next != null) {
+                if (self.pos.x < next.pos.x) {
+                    from = new Point(self.pos.x + SIZE.width, self.pos.y + (SIZE.height >> 1));
+                    to = new Point(next.pos.x, next.pos.y + (SIZE.height >> 1));
+                } else if (self.pos.x > next.pos.x) {
+                    from = new Point(self.pos.x, self.pos.y + (SIZE.height >> 1));
+                    to = new Point(next.pos.x + SIZE.width, self.pos.y + (SIZE.height >> 1));
+                } else {
+                    from = new Point(self.pos.x + (SIZE.width >> 1), self.pos.y + SIZE.height);
+                    to = new Point(next.pos.x + (SIZE.width >> 1), next.pos.y);
+                }
+            } else {
+                from = new Point(self.pos.x + SIZE.width, self.pos.y);
+                to = new Point(self.pos.x + (SIZE.width >> 1) * 3, self.pos.y - (SIZE.height >> 2));
+            }
+            return new ArrowLine(from, to, ArrowLine.Position.DOUBLE).getShapeSet();
         }
 
         @Override
