@@ -19,7 +19,7 @@ public abstract class GeneralLinkedNodeController extends StructureNodeControlle
     protected final JTextField idField = new JTextField();
     protected final JLabel dataText = new JLabel(GUILangSupporter.STRUCT_NODE_DATA_TEXT.toString());
     protected final JTextField dataField = new JTextField();
-    protected final JLabel nextText = new JLabel(GUILangSupporter.SINGLY_LINKED_NODE_NEXT_TEXT.toString());
+    protected final JLabel nextText = new JLabel(GUILangSupporter.LINKED_NODE_NEXT_TEXT.toString());
     protected final JTextField nextField = new JTextField();
 
     public GeneralLinkedNodeController(String data) {
@@ -50,7 +50,7 @@ public abstract class GeneralLinkedNodeController extends StructureNodeControlle
         infoController.add(idText);
         infoController.add(idField);
         infoController.add(nextText);
-        infoController.add(nextField); // TODO!!
+        infoController.add(nextField);
         infoController.add(dataText);
         infoController.add(dataField);
         controller.updateUI();

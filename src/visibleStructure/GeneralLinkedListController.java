@@ -4,6 +4,7 @@ import visibility.CanvasPairController;
 import visibility.GUILangSupporter;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Yip Coekjan
@@ -146,5 +147,23 @@ public abstract class GeneralLinkedListController extends CanvasPairController {
     public abstract void deleteTail();
 
     public abstract void deleteNode(GeneralLinkedNodeController node);
+
+    @Override
+    protected void updateComponents() {
+        int sign = 1;
+        final Point drawPos = new Point(-StructureNodeController.SIZE.width, StructureNodeController.SIZE.height);
+        canvas.removeAll();
+        for(GeneralLinkedNodeController pointer = head; pointer != null; pointer = pointer.next) {
+            drawPos.x += sign * (StructureNodeController.SIZE.width << 1);
+            canvas.add(pointer.buttonPairShape, drawPos.x, drawPos.y);
+            if(drawPos.x + (sign * StructureNodeController.SIZE.width << 1) < 0 ||
+                    drawPos.x + (sign * StructureNodeController.SIZE.width << 2) >= canvas.getWidth()) {
+                drawPos.x += sign * (StructureNodeController.SIZE.width << 1);
+                drawPos.y += StructureNodeController.SIZE.height << 1;
+                sign = -sign;
+            }
+        }
+        canvas.repaint();
+    }
 
 }

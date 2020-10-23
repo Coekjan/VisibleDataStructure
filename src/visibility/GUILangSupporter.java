@@ -154,9 +154,13 @@ public final class GUILangSupporter {
             "单向链表",
             "Singly-Linked List"
     );
-    public static final LangString SINGLY_LINKED_NODE_NEXT_TEXT = new LangString(
-            "单向链接到",
-            "Singly-linked to"
+    public static final LangString LINKED_NODE_NEXT_TEXT = new LangString(
+            "向后链接到",
+            "Next-linked to"
+    );
+    public static final LangString LINKED_NODE_PREV_TEXT = new LangString(
+            "向前链接到",
+            "Prev-Linked to"
     );
     public static final LangString LINKED_LINEAR_LIST_DOUBLE_NOT_LOOP = new LangString(
             "双向链表",

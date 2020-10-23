@@ -21,9 +21,9 @@ public class ArrowLine {
         this.pos = pos;
     }
 
-    public ArrayList<Shape> getShapeSet() {
+    public ArrayList<Shape> getShapeArray() {
         ArrayList<Shape> shapes = new ArrayList<>();
-        Point[] point = calculateArrowPoint();
+        Point[] point = calculateArrowPoint(from, to);
         shapes.add(new Line2D.Double(
                 from.x,
                 from.y,
@@ -42,10 +42,25 @@ public class ArrowLine {
                 point[1].x,
                 point[1].y
         ));
+        if (pos == Position.DOUBLE) {
+            point = calculateArrowPoint(to, from);
+            shapes.add(new Line2D.Double(
+                    from.x,
+                    from.y,
+                    point[0].x,
+                    point[0].y
+            ));
+            shapes.add(new Line2D.Double(
+                    from.x,
+                    from.y,
+                    point[1].x,
+                    point[1].y
+            ));
+        }
         return shapes;
     }
 
-    private Point[] calculateArrowPoint() {
+    private Point[] calculateArrowPoint(Point from, Point to) {
         final Point[] points = new Point[2];
         points[0] = new Point();
         points[1] = new Point();

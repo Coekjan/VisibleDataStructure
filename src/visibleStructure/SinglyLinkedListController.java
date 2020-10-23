@@ -63,7 +63,7 @@ public class SinglyLinkedListController extends GeneralLinkedListController {
                 from = new Point(self.pos.x + SIZE.width, self.pos.y);
                 to = new Point(self.pos.x + (SIZE.width >> 1) * 3, self.pos.y - (SIZE.height >> 2));
             }
-            return new ArrowLine(from, to, ArrowLine.Position.SINGLE).getShapeSet();
+            return new ArrowLine(from, to, ArrowLine.Position.SINGLE).getShapeArray();
         }
 
     }
@@ -142,21 +142,4 @@ public class SinglyLinkedListController extends GeneralLinkedListController {
         }
     }
 
-    @Override
-    protected void updateComponents() {
-        int sign = 1;
-        final Point drawPos = new Point(-StructureNodeController.SIZE.width, StructureNodeController.SIZE.height);
-        canvas.removeAll();
-        for(GeneralLinkedNodeController pointer = head; pointer != null; pointer = pointer.next) {
-            drawPos.x += sign * (StructureNodeController.SIZE.width << 1);
-            canvas.add(pointer.buttonPairShape, drawPos.x, drawPos.y);
-            if(drawPos.x + (sign * StructureNodeController.SIZE.width << 1) < 0 ||
-                    drawPos.x + (sign * StructureNodeController.SIZE.width << 2) >= canvas.getWidth()) {
-                drawPos.x += sign * (StructureNodeController.SIZE.width << 1);
-                drawPos.y += StructureNodeController.SIZE.height << 1;
-                sign = -sign;
-            }
-        }
-        canvas.repaint();
-    }
 }

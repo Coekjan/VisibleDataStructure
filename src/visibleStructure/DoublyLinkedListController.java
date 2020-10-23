@@ -4,7 +4,6 @@ import visibility.GUILangSupporter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.CubicCurve2D;
 import java.util.ArrayList;
 
 /**
@@ -19,38 +18,86 @@ public class DoublyLinkedListController extends GeneralLinkedListController {
 
     @Override
     public void append(String data) {
-
+        GeneralLinkedNodeController node = new DoublyLinkedNodeController(data);
+        if(head == null) head = tail = node;
+        else {
+            tail.link(node);
+            tail = node;
+        }
+        length++;
     }
 
     @Override
     public void ahead(String data) {
-
+        GeneralLinkedNodeController node = new DoublyLinkedNodeController(data);
+        if(head == null) head = tail = node;
+        else {
+            node.link(head);
+            head = node;
+        }
+        length++;
     }
 
     @Override
     public void insert(GeneralLinkedNodeController node, String data) {
-
+        if(node == tail) {
+            append(data);
+        } else {
+            GeneralLinkedNodeController newNode = new DoublyLinkedNodeController(data);
+            newNode.link(node.next);
+            node.link(newNode);
+            length++;
+        }
     }
 
     @Override
     public void deleteHead() {
-
+        if(head == tail) head = tail = null;
+        else for(GeneralLinkedNodeController node = head; ; node = node.next) {
+            if(node.next == tail) {
+                tail = node;
+                tail.link(null);
+                break;
+            }
+        }
+        length--;
     }
 
     @Override
     public void deleteTail() {
-
+        if(head == tail) head = tail = null;
+        else {
+            head = head.next;
+        }
+        length--;
     }
 
     @Override
     public void deleteNode(GeneralLinkedNodeController node) {
-
+        if(head == tail || node == tail) {
+            deleteTail();
+        } else if(head == node) {
+            deleteHead();
+        } else {
+            for(GeneralLinkedNodeController pointer = head; ; pointer = pointer.next) {
+                if(pointer.next == node) {
+                    pointer.link(node.next);
+                    break;
+                }
+            }
+            length--;
+        }
     }
 
     private class DoublyLinkedNodeController extends GeneralLinkedNodeController {
 
+        private final JLabel prevText = new JLabel(GUILangSupporter.LINKED_NODE_PREV_TEXT.toString());
+        public final JTextField prevField = new JTextField();
+
         public DoublyLinkedNodeController(String data) {
             super(data);
+            prevField.setText(GUILangSupporter.STRUCT_NODE_POINT_NULL.toString());
+            prevField.setEditable(false);
         }
 
         @Override
@@ -59,6 +106,7 @@ public class DoublyLinkedListController extends GeneralLinkedListController {
             if(node == null) nextField.setText(GUILangSupporter.STRUCT_NODE_POINT_NULL.toString());
             else {
                 nextField.setText(Integer.toString(next.id));
+                ((DoublyLinkedNodeController) node).prevField.setText(Integer.toString(id));
                 node.prev = this;
             }
         }
@@ -82,7 +130,7 @@ public class DoublyLinkedListController extends GeneralLinkedListController {
                 from = new Point(self.pos.x + SIZE.width, self.pos.y);
                 to = new Point(self.pos.x + (SIZE.width >> 1) * 3, self.pos.y - (SIZE.height >> 2));
             }
-            return new ArrowLine(from, to, ArrowLine.Position.DOUBLE).getShapeSet();
+            return new ArrowLine(from, to, ArrowLine.Position.DOUBLE).getShapeArray();
         }
 
         @Override
@@ -100,10 +148,20 @@ public class DoublyLinkedListController extends GeneralLinkedListController {
             return controller;
         }
 
+        @Override
+        protected void onClickListener(JPanel infoController, JSplitPane controller) {
+            dataField.setText(data);
+            infoController.removeAll();
+            infoController.add(idText);
+            infoController.add(idField);
+            infoController.add(nextText);
+            infoController.add(nextField);
+            infoController.add(prevText);
+            infoController.add(prevField);
+            infoController.add(dataText);
+            infoController.add(dataField);
+            controller.updateUI();
+        }
     }
 
-    @Override
-    protected void updateComponents() {
-
-    }
 }
