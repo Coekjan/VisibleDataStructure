@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class ArrowLine {
     public static final int ANGLE = 15; // degree
+    public static final int CRITICAL_LENGTH = 50;
     Point from, to;
     Position pos;
 
@@ -23,7 +24,8 @@ public class ArrowLine {
 
     public ArrayList<Shape> getShapeArray() {
         ArrayList<Shape> shapes = new ArrayList<>();
-        Point[] point = calculateArrowPoint(from, to);
+        Point[] point;
+        point = calculateArrowPoint(from, to);
         shapes.add(new Line2D.Double(
                 from.x,
                 from.y,

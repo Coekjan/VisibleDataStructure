@@ -117,9 +117,33 @@ public final class GUILangSupporter {
             "在头部增加结点",
             "Add a node to the head"
     );
-    public static final LangString STRUCT_NODE_ADDER_INSERT = new LangString(
+    public static final LangString STRUCT_TREE_NODE_LEFT_ROTATION = new LangString(
+            "向左旋转结点",
+            "Left-rotate node"
+    );
+    public static final LangString STRUCT_TREE_NODE_RIGHT_ROTATION = new LangString(
+            "向右旋转结点",
+            "Right-rotate node"
+    );
+    public static final LangString STRUCT_NODE_ADDER_INSERT_BEHIND = new LangString(
             "在选定结点后增加结点",
             "Add a node behind a specified node"
+    );
+    public static final LangString STRUCT_NODE_ADDER_INITIAL = new LangString(
+            "初始化",
+            "Initialize"
+    );
+    public static final LangString STRUCT_NODE_ADDER_INSERT_POS = new LangString(
+            "在选定结点下新增结点",
+            "Add a node beneath a specific node"
+    );
+    public static final LangString STRUCT_NODE_LEFT = new LangString(
+            "左侧",
+            "Left"
+    );
+    public static final LangString STRUCT_NODE_RIGHT = new LangString(
+            "右侧",
+            "Right"
     );
     public static final LangString STRUCT_NODE_DELETER_TAIL = new LangString(
             "从尾部删除结点",
@@ -132,6 +156,26 @@ public final class GUILangSupporter {
     public static final LangString STRUCT_NODE_DELETER_SELECTION = new LangString(
             "选择删除结点",
             "Delete a node you choose"
+    );
+    public static final LangString STRUCT_NODE_INSERT_POSITION_SELECTION_TEXT =  new LangString(
+            "请选择一侧方向",
+            "Please select a position"
+    );
+    public static final LangString STRUCT_NODE_INSERT_POSITION_SELECTION_TITLE = new LangString(
+            "选择方向",
+            "Position Selection"
+    );
+    public static final LangString BINARY_TREE_POSITION_CONFIRM_TEXT = new LangString(
+            "确认方向",
+            "Confirm the position"
+    );
+    public static final LangString BINARY_TREE_POSITION_CONFIRM_LEFT = new LangString(
+            "此结点只有左边空余, 确认选择左边?",
+            "For this node, only the LEFT is available, confirm it?"
+    );
+    public static final LangString BINARY_TREE_POSITION_CONFIRM_RIGHT = new LangString(
+            "此结点只有右边空余, 确认选择右边?",
+            "For this node, only the RIGHT is available, confirm it?"
     );
     public static final LangString DATA_ADD_MESSAGE = new LangString(
             "输入数据",
@@ -154,6 +198,18 @@ public final class GUILangSupporter {
             "单向链表",
             "Singly-Linked List"
     );
+    public static final LangString LINKED_LINEAR_LIST_DOUBLE_NOT_LOOP = new LangString(
+            "双向链表",
+            "Doubly-Linked List"
+    );
+    public static final LangString BINARY_TREE = new LangString(
+            "二叉树",
+            "Binary Tree"
+    );
+    public static final LangString COMMON_BINARY_TREE = new LangString(
+            "普通二叉树",
+            "Common Binary Tree"
+    );
     public static final LangString LINKED_NODE_NEXT_TEXT = new LangString(
             "向后链接到",
             "Next-linked to"
@@ -162,8 +218,16 @@ public final class GUILangSupporter {
             "向前链接到",
             "Prev-Linked to"
     );
-    public static final LangString LINKED_LINEAR_LIST_DOUBLE_NOT_LOOP = new LangString(
-            "双向链表",
-            "Doubly-Linked List"
+    public static final LangString LINKED_NODE_PARENT_TEXT = new LangString(
+            "父结点",
+            "Parent node"
+    );
+    public static final LangString LINKED_NODE_LEFT_CHILD_TEXT = new LangString(
+            "左子结点",
+            "Left-Child node"
+    );
+    public static final LangString LINKED_NODE_RIGHT_CHILD_TEXT = new LangString(
+            "右子结点",
+            "Right-Child node"
     );
 }

@@ -6,8 +6,9 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Hashtable;
 
@@ -168,9 +169,9 @@ public class GUIFramework extends JFrame {
                             GUILangSupporter.WARNING.toString(),
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.WARNING_MESSAGE) != JOptionPane.NO_OPTION) {
-                        nowNode = selectedNode;
                         CanvasPairController canvasPairController = self.handlers.get(selectedNode.getUserObject()).construct();
                         JSplitPane controller = canvasPairController.getController();
+                        nowNode = selectedNode;
                         controller.setDividerLocation(FRAME_DIMENSION.width * 3 / 5);
                         self.workSpace.removeAll();
                         self.workSpace.setTopComponent(canvasPairController.getCanvas());

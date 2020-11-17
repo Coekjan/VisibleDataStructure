@@ -17,13 +17,14 @@ public abstract class GeneralLinkedListController extends CanvasPairController {
     public static final int LEN_MAX = 50;
 
     public GeneralLinkedListController() {
+        super();
         JButton appendButton = new JButton(GUILangSupporter.STRUCT_NODE_ADDER_APPEND.toString());
         appendButton.addActionListener(e -> {
-            if(length >= LEN_MAX) {
+            if (length >= LEN_MAX) {
                 dialogNotEnoughSpace();
             } else {
                 String inputContent = dialogInputData();
-                if(inputContent != null) {
+                if (inputContent != null) {
                     append(inputContent);
                     updateComponents();
                 }
@@ -43,7 +44,7 @@ public abstract class GeneralLinkedListController extends CanvasPairController {
             }
         });
 
-        JButton insertButton = new JButton(GUILangSupporter.STRUCT_NODE_ADDER_INSERT.toString());
+        JButton insertButton = new JButton(GUILangSupporter.STRUCT_NODE_ADDER_INSERT_BEHIND.toString());
         insertButton.addActionListener(e -> {
             if(length < 1) {
                 dialogNotEnoughNode();
@@ -52,8 +53,10 @@ public abstract class GeneralLinkedListController extends CanvasPairController {
             } else {
                 GeneralLinkedNodeController selected = dialogSelectNodeByID();
                 String inputData = dialogInputData();
-                insert(selected, inputData);
-                updateComponents();
+                if (selected != null && inputData != null) {
+                    insert(selected, inputData);
+                    updateComponents();
+                }
             }
         });
 
@@ -83,22 +86,24 @@ public abstract class GeneralLinkedListController extends CanvasPairController {
                 dialogNotEnoughNode();
             } else {
                 GeneralLinkedNodeController selection = dialogSelectNodeByID();
-                deleteNode(selection);
-                updateComponents();
+                if (selection != null) {
+                    deleteNode(selection);
+                    updateComponents();
+                }
             }
         });
 
-        adderAndDeleter.add(appendButton);
-        adderAndDeleter.add(aheadButton);
-        adderAndDeleter.add(insertButton);
-        adderAndDeleter.add(deleteTailButton);
-        adderAndDeleter.add(deleteHeadButton);
-        adderAndDeleter.add(deleteSelectionButton);
+        controlPanel.add(appendButton);
+        controlPanel.add(deleteTailButton);
+        controlPanel.add(aheadButton);
+        controlPanel.add(deleteHeadButton);
+        controlPanel.add(insertButton);
+        controlPanel.add(deleteSelectionButton);
     }
     private GeneralLinkedNodeController dialogSelectNodeByID() {
         Integer[] idArray = new Integer[length];
         int i = 0;
-        for(GeneralLinkedNodeController node = head; node != null; node = node.next, i++) {
+        for (GeneralLinkedNodeController node = head; node != null; node = node.next, i++) {
             idArray[i] = node.id;
         }
         Integer inputContent = (Integer) JOptionPane.showInputDialog(
@@ -110,8 +115,8 @@ public abstract class GeneralLinkedListController extends CanvasPairController {
                 idArray,
                 idArray[0]
         );
-        for(GeneralLinkedNodeController node = head; node != null; node = node.next) {
-            if(inputContent.equals(node.id)) {
+        if (inputContent != null) for (GeneralLinkedNodeController node = head; node != null; node = node.next) {
+            if (inputContent.equals(node.id)) {
                 return node;
             }
         }
