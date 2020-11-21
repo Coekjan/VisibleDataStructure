@@ -7,8 +7,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 
@@ -19,7 +19,6 @@ import java.util.Hashtable;
 public class GUIFramework extends JFrame {
     private final GUIFramework self = this;
     private static final Dimension FRAME_DIMENSION;
-    private boolean save = true;
 
     static {
         FRAME_DIMENSION = new Dimension(
@@ -41,27 +40,9 @@ public class GUIFramework extends JFrame {
         JSplitPane content = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         this.add(content);
         this.setTitle(GUILangSupporter.TITLE.toString());
-        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(FRAME_DIMENSION);
         this.setLocationRelativeTo(null);
-        this.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {}
-            @Override
-            public void windowClosing(WindowEvent e) {
-                onExitListener();
-            }
-            @Override
-            public void windowClosed(WindowEvent e) {}
-            @Override
-            public void windowIconified(WindowEvent e) {}
-            @Override
-            public void windowDeiconified(WindowEvent e) {}
-            @Override
-            public void windowActivated(WindowEvent e) {}
-            @Override
-            public void windowDeactivated(WindowEvent e) {}
-        });
         this.setJMenuBar(new GUIFrameworkMenuBar());
 
         content.setLeftComponent(sourceManager);
@@ -79,23 +60,13 @@ public class GUIFramework extends JFrame {
         public GUIFrameworkMenuBar() {
             JMenu file = new JMenu(GUILangSupporter.MENU_TEXT_FILE.toString());
             JMenuItem fileNewFile = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_NEW.toString());
-            JMenuItem fileOpenFile = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_OPEN.toString());
-            JMenuItem fileSaveFile = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_SAVE.toString());
             JMenuItem fileLang = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_LANG.toString());
             JMenuItem fileExit = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_EXIT.toString());
             file.add(fileNewFile);
-            file.add(fileOpenFile);
-            file.add(fileSaveFile);
             file.add(fileLang);
             file.addSeparator();
             file.add(fileExit);
             fileNewFile.addActionListener(e -> new GUIFramework(self.structures, self.handlers));
-            fileOpenFile.addActionListener(e -> {
-
-            }); // TODO
-            fileSaveFile.addActionListener(e -> {
-
-            }); // TODO
             fileLang.addActionListener(e -> {
                 String input = (String) JOptionPane.showInputDialog(
                         self,
@@ -107,25 +78,17 @@ public class GUIFramework extends JFrame {
                         LangString.languages[GUILangSupporter.currentLangIndex]
                 );
                 if(!input.equals(LangString.languages[GUILangSupporter.currentLangIndex])) {
-                    if(save || JOptionPane.showConfirmDialog(
-                            self,
-                            GUILangSupporter.LANG_CHANGE_BUT_NOT_SAVE.toString(),
-                            GUILangSupporter.NOT_SAVE_TITLE.toString(),
-                            JOptionPane.YES_NO_OPTION
-                    ) == JOptionPane.YES_OPTION) {
-                        for(int i = 0; i < LangString.languages.length; i++) {
-                            if(LangString.languages[i].equals(input)) {
-                                GUILangSupporter.currentLangIndex = i;
-                                self.dispose();
-                                new GUIFramework(structures, handlers);
-                                break;
-                            }
+                    for(int i = 0; i < LangString.languages.length; i++) {
+                        if(LangString.languages[i].equals(input)) {
+                            GUILangSupporter.currentLangIndex = i;
+                            self.dispose();
+                            new GUIFramework(structures, handlers);
+                            break;
                         }
                     }
                 }
 
             });
-            fileExit.addActionListener(e -> onExitListener());
             JMenu about = new JMenu(GUILangSupporter.MENU_TEXT_ABOUT.toString());
             JMenuItem aboutSponsor = new JMenuItem(GUILangSupporter.MENU_TEXT_ABOUT_SPONSOR.toString());
             JMenuItem aboutFeedback = new JMenuItem(GUILangSupporter.MENU_TEXT_ABOUT_FEEDBACK.toString());
@@ -136,10 +99,10 @@ public class GUIFramework extends JFrame {
             about.add(aboutFeedback);
             aboutSponsor.addActionListener(e -> {
 
-            }); // TODO
+            });
             aboutFeedback.addActionListener(e -> {
 
-            }); // TODO
+            });
             aboutAuthor.addActionListener(e -> JOptionPane.showMessageDialog(
                     self,
                     GUILangSupporter.AUTHOR.toString(),
@@ -153,7 +116,11 @@ public class GUIFramework extends JFrame {
 
     private class GUIFrameworkSourceManagerTree extends JScrollPane {
         private DefaultMutableTreeNode nowNode = null;
+        private final HashMap<DefaultMutableTreeNode, Integer> selectedNodes = new HashMap<>();
+        private final ArrayList<DrawablePane> drawablePanes = new ArrayList<>();
+        private final ArrayList<JSplitPane> controllers = new ArrayList<>();
         private final JTree tree = new JTree(structures);
+
         public GUIFrameworkSourceManagerTree() {
             this.setViewportView(tree);
             tree.setRootVisible(false);
@@ -163,39 +130,30 @@ public class GUIFramework extends JFrame {
                 DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
                 if(selectedNode != null && selectedNode != nowNode
                         && selectedNode != tree.getModel().getRoot() && selectedNode.isLeaf()) {
-                    if(save || JOptionPane.showConfirmDialog(
-                            self,
-                            GUILangSupporter.STRUCTURE_SWITCH_WARNING_MESSAGE.toString(),
-                            GUILangSupporter.WARNING.toString(),
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.WARNING_MESSAGE) != JOptionPane.NO_OPTION) {
-                        CanvasPairController canvasPairController = self.handlers.get(selectedNode.getUserObject()).construct();
-                        JSplitPane controller = canvasPairController.getController();
-                        nowNode = selectedNode;
-                        controller.setDividerLocation(FRAME_DIMENSION.width * 3 / 5);
-                        self.workSpace.removeAll();
-                        self.workSpace.setTopComponent(canvasPairController.getCanvas());
-                        self.workSpace.setBottomComponent(controller);
-                        self.workSpace.setDividerSize(2);
-                        self.workSpace.updateUI();
-                        self.save = false;
+                    DrawablePane drawablePane;
+                    JSplitPane controller;
+                    if (selectedNodes.containsKey(selectedNode)) {
+                        int index = selectedNodes.get(selectedNode);
+                        drawablePane = drawablePanes.get(index);
+                        controller = controllers.get(index);
                     } else {
-                        tree.setSelectionPath(new TreePath(nowNode.getPath()));
+                        int index = drawablePanes.size();
+                        CanvasPairController canvasPairController = self.handlers.get(selectedNode.getUserObject()).construct();
+                        controller = canvasPairController.getController();
+                        drawablePane = canvasPairController.getCanvas();
+                        controllers.add(controller);
+                        drawablePanes.add(drawablePane);
+                        selectedNodes.put(selectedNode, index);
                     }
+                    controller.setDividerLocation(FRAME_DIMENSION.width * 3 / 5);
+                    nowNode = selectedNode;
+                    self.workSpace.removeAll();
+                    self.workSpace.setTopComponent(drawablePane);
+                    self.workSpace.setBottomComponent(controller);
+                    self.workSpace.setDividerSize(2);
+                    self.workSpace.updateUI();
                 }
             });
-        }
-    }
-
-    private void onExitListener() {
-        if(save || JOptionPane.showConfirmDialog(
-                this,
-                GUILangSupporter.EXIT_BUT_NOT_SAVE_MESSAGE.toString(),
-                GUILangSupporter.NOT_SAVE_TITLE.toString(),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE
-        ) == JOptionPane.YES_OPTION) {
-            this.dispose();
         }
     }
 }

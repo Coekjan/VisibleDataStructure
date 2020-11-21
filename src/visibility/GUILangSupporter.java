@@ -19,14 +19,6 @@ public final class GUILangSupporter {
             "新建",
             "New File"
     );
-    public static final LangString MENU_TEXT_FILE_OPEN = new LangString(
-            "打开",
-            "Open File"
-    );
-    public static final LangString MENU_TEXT_FILE_SAVE = new LangString(
-            "保存",
-            "Save File"
-    );
     public static final LangString MENU_TEXT_FILE_LANG = new LangString(
             "语言",
             "Languages"
@@ -54,23 +46,6 @@ public final class GUILangSupporter {
     public static final LangString LANG_CHOOSE_TITLE = new LangString(
             "选择一种语言",
             "Choose one language"
-    );
-    public static final LangString NOT_SAVE_TITLE = new LangString(
-            "警告",
-            "Warning"
-    );
-    public static final LangString EXIT_BUT_NOT_SAVE_MESSAGE = new LangString(
-            "文件未保存, 确认退出吗?",
-            "The current file is not saved yet, confirm to exit?"
-    );
-    public static final LangString LANG_CHANGE_BUT_NOT_SAVE = new LangString(
-            "文件未保存, 更换语言将导致文件丢失. 确定更换语言吗?",
-            "The file is not saved. Changing the language now will discard the file. Confirm to change language?"
-    );
-
-    public static final LangString STRUCTURE_SWITCH_WARNING_MESSAGE = new LangString(
-            "文件未保存, 切换数据结构将丢失文件数据! 确认切换吗?",
-            "The file is not saved yet. if the structure is switched now, the data of file will be discarded! Confirm to switch?"
     );
     public static final LangString STRUCT_NODE_CHOICE_MESSAGE = new LangString(
             "选择一个结点代号",
@@ -128,10 +103,6 @@ public final class GUILangSupporter {
     public static final LangString STRUCT_NODE_ADDER_INSERT_BEHIND = new LangString(
             "在选定结点后增加结点",
             "Add a node behind a specified node"
-    );
-    public static final LangString STRUCT_NODE_ADDER_INITIAL = new LangString(
-            "初始化",
-            "Initialize"
     );
     public static final LangString STRUCT_NODE_ADDER_INSERT_POS = new LangString(
             "在选定结点下新增结点",
@@ -209,6 +180,18 @@ public final class GUILangSupporter {
     public static final LangString COMMON_BINARY_TREE = new LangString(
             "普通二叉树",
             "Common Binary Tree"
+    );
+    public static final LangString NLR_TRAVERSAL_BINARY_TREE = new LangString(
+            "先序线索二叉树",
+            "NLR-Threaded Binary Tree"
+    );
+    public static final LangString LNR_TRAVERSAL_BINARY_TREE = new LangString(
+            "中序线索二叉树",
+            "LNR-Threaded Binary Tree"
+    );
+    public static final LangString LRN_TRAVERSAL_BINARY_TREE = new LangString(
+            "后序线索二叉树",
+            "LRN-Threaded Binary Tree"
     );
     public static final LangString LINKED_NODE_NEXT_TEXT = new LangString(
             "向后链接到",

@@ -69,6 +69,11 @@ public class CommonBinaryTreeController extends GeneralBinaryTreeController {
     @Override
     public GeneralBinaryTreeNodeController insert(GeneralBinaryTreeNodeController node, GeneralBinaryTreeNodeController.Position position, String data) {
         GeneralBinaryTreeNodeController newNode = new CommonBinaryTreeNodeController(data);
+        insertFunc(node, position, newNode);
+        return newNode;
+    }
+
+    protected void insertFunc(GeneralBinaryTreeNodeController node, GeneralBinaryTreeNodeController.Position position, GeneralBinaryTreeNodeController newNode) {
         switch (position) {
             case LEFT:
                 node.leftLinkWithUpdate(newNode);
@@ -79,7 +84,6 @@ public class CommonBinaryTreeController extends GeneralBinaryTreeController {
             default:
                 break;
         }
-        return newNode;
     }
 
     @Override

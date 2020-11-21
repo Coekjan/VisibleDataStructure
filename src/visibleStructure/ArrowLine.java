@@ -10,11 +10,11 @@ import java.util.ArrayList;
  */
 public class ArrowLine {
     public static final int ANGLE = 15; // degree
-    public static final int CRITICAL_LENGTH = 50;
+    public static final int ARROW_CRITICAL_LENGTH = 15;
     Point from, to;
     Position pos;
 
-    public static enum Position {SINGLE, DOUBLE};
+    public enum Position {SINGLE, DOUBLE};
 
     public ArrowLine(Point from, Point to, Position pos) {
         this.from = from;
@@ -63,7 +63,7 @@ public class ArrowLine {
     }
 
     private Point[] calculateArrowPoint(Point from, Point to) {
-        final Point[] points = new Point[2];
+        Point[] points = new Point[2];
         points[0] = new Point();
         points[1] = new Point();
         final double TAN_ALPHA_DIV_2 = Math.tan(Math.toRadians(ANGLE) / 2);
@@ -86,7 +86,33 @@ public class ArrowLine {
             points[0].y = (int) (to.y + POS_MK * POS_KV);
             points[1].y = (int) (to.y + NEG_MK * NEG_KV);
         }
+        arrowPointAdapt(points, from, to);
         return points;
+    }
+
+    private void arrowPointAdapt(Point[] points, Point from, Point to) {
+        Point mid = new Point(
+                (points[0].x + points[1].x) >> 1,
+                (points[0].y + points[1].y) >> 1
+        );
+        double dis = Math.sqrt((mid.x - to.x) * (mid.x - to.x) + (mid.y - to.y) * (mid.y - to.y));
+        if (dis > ARROW_CRITICAL_LENGTH) {
+            double rate = ARROW_CRITICAL_LENGTH / dis;
+            if (from.x < to.x) {
+                points[0].x = to.x - (int) (rate * Math.abs(points[0].x - to.x));
+                points[1].x = to.x - (int) (rate * Math.abs(points[1].x - to.x));
+            } else {
+                points[0].x = to.x + (int) (rate * Math.abs(points[0].x - to.x));
+                points[1].x = to.x + (int) (rate * Math.abs(points[1].x - to.x));
+            }
+            if (from.y < to.y) {
+                points[0].y = to.y - (int) (rate * Math.abs(points[0].y - to.y));
+                points[1].y = to.y - (int) (rate * Math.abs(points[1].y - to.y));
+            } else {
+                points[0].y = to.y + (int) (rate * Math.abs(points[0].y - to.y));
+                points[1].y = to.y + (int) (rate * Math.abs(points[1].y - to.y));
+            }
+        }
     }
 
 }
