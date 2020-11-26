@@ -9,6 +9,8 @@ import java.util.ArrayList;
  * @Date 9/1/2020
  */
 public class DrawablePane extends JPanel {
+    
+    private static final long serialVersionUID = 1L;
     protected final ArrayList<ButtonPairShapeConstructor> buttonPairShapeConstructors = new ArrayList<>();
 
     @Override

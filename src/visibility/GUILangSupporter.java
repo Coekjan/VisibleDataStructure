@@ -59,15 +59,21 @@ public final class GUILangSupporter {
             "警告",
             "Warning"
     );
+    public static final LangString INFORMATION = new LangString(
+            "信息",
+            "Info"
+    );
 
-    public static final LangString STRUCT_NODE_ADDER = new LangString(
-            "增加结点",
-            "Add node"
+    public static final LangString SPONSORSHIP_THANKS = new LangString(
+            "感谢您的好意, 叶焯仁心领了!",
+            "Thanks for your kindness, Coekjan appreciate you kind."
     );
-    public static final LangString STRUCT_NODE_DELETER = new LangString(
-            "删除结点",
-            "Delete node"
+
+    public static final LangString FEEDBACK_INFO = new LangString(
+            "反馈请加微信 : Shiuhing_Ycj",
+            "Wechat for feedback : Shiuhing_Ycj"
     );
+
     public static final LangString STRUCT_NOT_ENOUGH_NODES_MESSAGE = new LangString(
             "结点数目不足.",
             "The number of nodes is not enough."

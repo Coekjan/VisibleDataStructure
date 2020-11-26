@@ -4,7 +4,6 @@ import visibility.CanvasPairController;
 import visibility.GUILangSupporter;
 
 import javax.swing.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;

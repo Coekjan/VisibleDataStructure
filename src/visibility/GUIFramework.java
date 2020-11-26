@@ -4,10 +4,7 @@ import visibleStructure.StructureNodeController;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -17,6 +14,7 @@ import java.util.Hashtable;
  * @Date 9/1/2020
  */
 public class GUIFramework extends JFrame {
+    private static final long serialVersionUID = 1L;
     private final GUIFramework self = this;
     private static final Dimension FRAME_DIMENSION;
 
@@ -57,6 +55,8 @@ public class GUIFramework extends JFrame {
     }
 
     private class GUIFrameworkMenuBar extends JMenuBar {
+        private static final long serialVersionUID = 1L;
+
         public GUIFrameworkMenuBar() {
             JMenu file = new JMenu(GUILangSupporter.MENU_TEXT_FILE.toString());
             JMenuItem fileNewFile = new JMenuItem(GUILangSupporter.MENU_TEXT_FILE_NEW.toString());
@@ -77,7 +77,7 @@ public class GUIFramework extends JFrame {
                         LangString.languages,
                         LangString.languages[GUILangSupporter.currentLangIndex]
                 );
-                if(!input.equals(LangString.languages[GUILangSupporter.currentLangIndex])) {
+                if (input != null && !input.equals(LangString.languages[GUILangSupporter.currentLangIndex])) {
                     for(int i = 0; i < LangString.languages.length; i++) {
                         if(LangString.languages[i].equals(input)) {
                             GUILangSupporter.currentLangIndex = i;
@@ -98,10 +98,20 @@ public class GUIFramework extends JFrame {
             about.addSeparator();
             about.add(aboutFeedback);
             aboutSponsor.addActionListener(e -> {
-
+                JOptionPane.showMessageDialog(
+                        null,
+                        GUILangSupporter.SPONSORSHIP_THANKS.toString(),
+                        GUILangSupporter.INFORMATION.toString(),
+                        JOptionPane.WARNING_MESSAGE
+                );
             });
             aboutFeedback.addActionListener(e -> {
-
+                JOptionPane.showMessageDialog(
+                        null,
+                        GUILangSupporter.FEEDBACK_INFO.toString(),
+                        GUILangSupporter.INFORMATION.toString(),
+                        JOptionPane.WARNING_MESSAGE
+                );
             });
             aboutAuthor.addActionListener(e -> JOptionPane.showMessageDialog(
                     self,
@@ -115,6 +125,7 @@ public class GUIFramework extends JFrame {
     }
 
     private class GUIFrameworkSourceManagerTree extends JScrollPane {
+        private static final long serialVersionUID = 1L;
         private DefaultMutableTreeNode nowNode = null;
         private final HashMap<DefaultMutableTreeNode, Integer> selectedNodes = new HashMap<>();
         private final ArrayList<DrawablePane> drawablePanes = new ArrayList<>();
